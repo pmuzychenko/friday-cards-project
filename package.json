@@ -2,7 +2,7 @@
   "name": "friday-cards-project",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://pmuzychenko.github.io/friday-cards-project",
+  "homepage": "https://pmuzychenko.github.io/friday-cards-project/",
   "dependencies": {
     "axios": "^0.21.1",
     "react": "^17.0.1",
