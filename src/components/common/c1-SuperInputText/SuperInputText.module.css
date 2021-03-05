@@ -1,0 +1,16 @@
+.superInput {
+    border: 3px solid black;
+    border-radius: 30px;
+    outline: none;
+}
+
+.errorInput {
+    border: 3px solid #34495E;
+    background: red;
+    border-radius: 30px;
+}
+
+.error {
+    color: red;
+    font-size: 21px;
+}

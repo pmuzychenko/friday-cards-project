@@ -1,0 +1,17 @@
+.mainHeader {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.mainHeader a {
+    color: #282c34;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 3px 0;
+}
+
+.mainHeader a:hover, .mainHeader a:active {
+    color: #9a9a9a;
+    border-bottom: 3px solid white;
+    text-decoration: underline;
+}
