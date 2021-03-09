@@ -29,7 +29,8 @@ export const Routes = () => {
                 <Route exact path={'/singIn'} render={()=> <SignIn/>}/>
                 <Route exact path={'/newPassword'} render={()=> <SetNewPassword/>}/>
                 <Route exact path={'/superComponentsStand'} render={()=> <SuperComponentsStand/>}/>
-                <Route render={() => <Error404/>}/>
+                <Route path={'/404'} render={() => <Error404/>}/>
+                <Redirect from={'*'} to={'/404'}/>
             </Switch>
         </div>
 );
