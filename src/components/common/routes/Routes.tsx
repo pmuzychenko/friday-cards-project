@@ -3,7 +3,7 @@ import {Route, Switch, Redirect} from "react-router-dom";
 import {Login} from "../pages/Login";
 import {PasswordRecovery} from "../pages/Password-recovery";
 import {Profile} from "../pages/Profile";
-import {SignIn} from "../pages/Sing-in";
+import {SignIn} from "../pages/Sign-in";
 import {SetNewPassword} from "../pages/SetNewPassword";
 import {Error404} from "../pages/Error404";
 import {SuperComponentsStand} from "../pages/SuperComponentsStand";
