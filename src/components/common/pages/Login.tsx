@@ -13,6 +13,7 @@ export const Login = () => {
 
     const dispatch = useDispatch()
     const isUserLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const error = useSelector<AppRootStateType, string>(state => state.login.error)
 
     if (isUserLoggedIn) {
         return <Redirect to={'/profile'}/>
@@ -38,6 +39,7 @@ export const Login = () => {
 
     return (
         <div>
+            {error && <div>{error}</div>}
             <form onSubmit={submitLoginFormData}>
 
                 <div className={styles.formFields}>

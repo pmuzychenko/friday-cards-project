@@ -24,11 +24,13 @@ export type UserDataType = {
 type UserAuthData = {
     data: UserDataType | null
     isLoggedIn: boolean
+    error: string
 }
 
 const initialState: UserAuthData = {
     isLoggedIn: false,
-    data: null
+    data: null,
+    error: ''
 }
 
 export const loginReducer = (state: UserAuthData = initialState, action: ActionsType): UserAuthData => {
@@ -39,6 +41,10 @@ export const loginReducer = (state: UserAuthData = initialState, action: Actions
 
         case 'login/SET-USER-DATA': {
             return {...state, data: action.data}
+        }
+
+        case 'login/SET-LOGGED-ERROR': {
+            return {...state, error: action.error}
         }
 
         default:
@@ -52,6 +58,10 @@ export const setIsLoggedInAC = (value: boolean) =>
 export const setUserDataAC = (data: UserDataType) =>
     ({type: 'login/SET-USER-DATA', data} as const)
 
+export const setUserLoggedErrorAC = (error: string) =>
+    ({type: 'login/SET-LOGGED-ERROR', error} as const)
+
+
 // thunks
 export const loginTC = (data: LoginFormData) => (dispatch: Dispatch) => {
 
@@ -61,12 +71,14 @@ export const loginTC = (data: LoginFormData) => (dispatch: Dispatch) => {
             dispatch(setUserDataAC(res.data))
         })
         .catch((e) => {
-            const error = e.response
+            const error:string = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console')
-            console.log('Error: ', {...error})
+            dispatch(setUserLoggedErrorAC('Error: ' + error))
         })
 }
 
 // types
-type ActionsType = ReturnType<typeof setIsLoggedInAC> | ReturnType<typeof setUserDataAC>
+type ActionsType = ReturnType<typeof setIsLoggedInAC>
+    | ReturnType<typeof setUserDataAC>
+    | ReturnType<typeof setUserLoggedErrorAC>
