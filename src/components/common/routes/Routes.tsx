@@ -27,7 +27,7 @@ export const Routes = () => {
                 <Route exact path={'/profile'} render={() => <Profile/>}/>
                 <Route exact path={'/passwordRecovery'} render={() => <PasswordRecovery/>}/>
                 <Route exact path={'/singIn'} render={() => <SignIn/>}/>
-                <Route exact path={'/newPassword'} render={() => <NewPasswordEntering/>}/>
+                <Route path={'/newPassword/:resetPasswordToken'} render={() => <NewPasswordEntering/>}/>
                 <Route exact path={'/superComponentsStand'} render={() => <SuperComponentsStand/>}/>
                 <Route render={() => <Error404/>}/>
             </Switch>

@@ -7,6 +7,7 @@ import {AppRootStateType} from "../../../app/store";
 
 export const NewPasswordEntering = () => {
     const {resetPasswordToken} = useParams<{ resetPasswordToken: string }>()
+    debugger
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
     const newPassword = useSelector<AppRootStateType, InitialStateType>(state => state.newPassword)
@@ -21,7 +22,9 @@ export const NewPasswordEntering = () => {
     }
 
     const sendNewPassword = () => {
-        dispatch(changePasswordTH(password, resetPasswordToken))
+        if (password === repeatPassword) {
+            dispatch(changePasswordTH(password, resetPasswordToken))
+        }
     }
 
     if (newPassword.passwordIsSet) {

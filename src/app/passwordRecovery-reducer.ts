@@ -35,13 +35,9 @@ export const sentMailTH = (email: string) => (dispatch: Dispatch) => {
     debugger
     passwordRecoveryApi.forgotPassword(email)
         .then(res => {
-            debugger
-            console.log(res)
             dispatch(ResponseForgotPasswordAC(res.data.info))
         })
         .catch(error => {
-            debugger
-            console.log(error)
             dispatch(forgotPasswordErrorAC(error.response.data.error))
         })
 }

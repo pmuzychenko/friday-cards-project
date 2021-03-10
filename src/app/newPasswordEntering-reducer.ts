@@ -40,12 +40,9 @@ export const setNewPasswordErrorAC = (error: string) => ({
 export const changePasswordTH = (password: string, resetPasswordToken: string) => (dispatch: Dispatch) => {
     passwordRecoveryApi.recoverPassword(password, resetPasswordToken)
         .then(res => {
-            console.log(res.data.info)
             dispatch(setNewPasswordAC(true))
         })
         .catch(error => {
-            debugger
-            console.log(error.error)
             dispatch(setNewPasswordErrorAC(error.response.data.error))
         })
 }

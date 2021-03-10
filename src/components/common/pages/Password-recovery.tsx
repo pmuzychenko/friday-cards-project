@@ -3,9 +3,11 @@ import style from './../pages/Password-recovery.module.css'
 import {InitialStatePasswordRecoveryType, sentMailTH} from "../../../app/passwordRecovery-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../app/store";
+import {useParams} from "react-router-dom";
 
 export const PasswordRecovery = () => {
-
+    const {resetPasswordToken} = useParams<{ resetPasswordToken: string }>()
+    debugger
     const [mail, setMail] = useState('')
     const dispatch = useDispatch()
     const passwordRecovery = useSelector<AppRootStateType, InitialStatePasswordRecoveryType>(state => state.passwordRecovery)
