@@ -45,6 +45,7 @@ export const loginReducer = (state: UserAuthData = initialState, action: Actions
             return state
     }
 }
+
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
@@ -67,7 +68,5 @@ export const loginTC = (data: LoginFormData) => (dispatch: Dispatch) => {
         })
 }
 
-
 // types
-type ActionsType = ReturnType<typeof setIsLoggedInAC>
-    | ReturnType<typeof setUserDataAC>
+type ActionsType = ReturnType<typeof setIsLoggedInAC> | ReturnType<typeof setUserDataAC>

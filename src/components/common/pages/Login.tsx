@@ -1,31 +1,39 @@
 import React, {ChangeEvent, FormEvent, useState} from "react";
 import SuperButton from "../c2-SuperButton/SuperButton";
 import styles from "./Login.module.css"
+import {loginTC} from "../../../app/login-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../../../app/store";
+import { Redirect } from "react-router-dom";
 
 export const Login = () => {
-    const [emailValue, setEmailValue] = useState<string>('')
-    const [passwordValue, setPasswordValue] = useState<string>('')
-    const [rememberMeValue, setRememberMeValue] = useState<boolean>(false)
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const [rememberMe, setRememberMe] = useState<boolean>(false)
+
+    const dispatch = useDispatch()
+    const isUserLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+
+    if (isUserLoggedIn) {
+        return <Redirect to={'/profile'}/>
+    }
 
     const emailHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setEmailValue(event.currentTarget.value)
+        setEmail(event.currentTarget.value)
     }
 
     const passwordHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setPasswordValue(event.currentTarget.value)
+        setPassword(event.currentTarget.value)
     }
 
     const rememberMeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setRememberMeValue(event.currentTarget.checked)
+        setRememberMe(event.currentTarget.checked)
     }
 
     const submitLoginFormData = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const email = emailValue
-        const password = passwordValue
-        const rememberMe = rememberMeValue
         const loginFormData = {email, password, rememberMe}
-        alert(JSON.stringify(loginFormData))
+        dispatch(loginTC(loginFormData))
     }
 
     return (
@@ -35,17 +43,17 @@ export const Login = () => {
                 <div className={styles.formFields}>
                     <input type="text"
                            placeholder={'Enter your email'}
-                           value={emailValue}
+                           value={email}
                            onChange={emailHandler}
                     />
                     <input type="password" name={'password'}
                            placeholder={'Enter your password'}
-                           value={passwordValue}
+                           value={password}
                            onChange={passwordHandler}
                     />
                     <div>
                         <input type="checkbox"
-                               checked={rememberMeValue}
+                               checked={rememberMe}
                                onChange={rememberMeHandler}
 
                         />

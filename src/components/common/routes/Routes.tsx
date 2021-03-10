@@ -15,22 +15,23 @@ export const PATH = {
     profile:'/profile',
     singIn:'/singIn',
     newPassword:'/newPassword',
-    superComponentsStand:'/superComponentsStand'
+    superComponentsStand:'/superComponentsStand',
+    error: '/404'
 
 }
 export const Routes = () => {
     return (
         <div>
             <Switch>
-                <Route exact path={'/'} render={() => <Redirect to={'/login'}/>} />
-                <Route path={'/login'} render={()=> <Login/>}/>
-                <Route exact path={'/profile'} render={()=> <Profile/>}/>
-                <Route exact path={'/passwordRecovery'} render={()=> <PasswordRecovery/>}/>
-                <Route exact path={'/singIn'} render={()=> <SignIn/>}/>
-                <Route exact path={'/newPassword'} render={()=> <SetNewPassword/>}/>
-                <Route exact path={'/superComponentsStand'} render={()=> <SuperComponentsStand/>}/>
-                <Route path={'/404'} render={() => <Error404/>}/>
-                <Redirect from={'*'} to={'/404'}/>
+                <Route exact path={'/'} render={() => <Redirect to={PATH.login}/>} />
+                <Route path={PATH.login} render={()=> <Login/>}/>
+                <Route exact path={PATH.profile} render={()=> <Profile/>}/>
+                <Route exact path={PATH.passwordRecovery} render={()=> <PasswordRecovery/>}/>
+                <Route exact path={PATH.singIn} render={()=> <SignIn/>}/>
+                <Route exact path={PATH.newPassword} render={()=> <SetNewPassword/>}/>
+                <Route exact path={PATH.superComponentsStand} render={()=> <SuperComponentsStand/>}/>
+                <Route path={PATH.error} render={() => <Error404/>}/>
+                <Redirect from={'*'} to={PATH.error}/>
             </Switch>
         </div>
 );

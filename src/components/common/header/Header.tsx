@@ -15,7 +15,6 @@ function Header() {
                 <NavLink to={PATH.superComponentsStand}>{'superComponentsStand '}</NavLink>
             </nav>
         </div>
-
     );
 }
 
