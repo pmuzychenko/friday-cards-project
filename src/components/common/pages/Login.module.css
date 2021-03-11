@@ -6,8 +6,21 @@
     align-items: center;
 }
 
+.formFields .formFieldsInput {
+    margin-bottom: 8px;
+    width: 25vw;
+    height: 3vh;
+}
+
+
 .errorBlock {
-    padding: 8px;
+    margin: 8px;
+    padding: 5px;
     color: red;
     font-weight: bold;
+}
+
+.preloader {
+    display: flex;
+    justify-content: center;
 }
