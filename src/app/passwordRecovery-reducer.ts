@@ -3,7 +3,9 @@ import {passwordRecoveryApi} from "../apiPasswordRecovery/api-passwordRecovery";
 
 const initialState = {
     info: "",
-    forgotPasswordError: ""
+    forgotPasswordError: "",
+    isMailSent: false,
+    isLoading: false
 }
 export type InitialStatePasswordRecoveryType = typeof initialState
 
@@ -14,6 +16,12 @@ export const passwordRecoveryReducer = (state: InitialStatePasswordRecoveryType 
 
         case "SET-FORGOT-PASSWORD-ERROR":
             return {...state, forgotPasswordError: action.forgotPasswordError}
+
+        case 'IS-MAIL-SENT':
+            return {...state, isMailSent: action.isMailSent}
+
+        case 'CHANGE-LOADING-STATUS' :
+            return {...state, isLoading: action.isLoading}
 
         default:
             return state
@@ -31,15 +39,39 @@ export const forgotPasswordErrorAC = (forgotPasswordError: string) => ({
     forgotPasswordError
 }) as const
 
+export const isMailSentAC = (isMailSent: boolean) => {
+    return ({
+        type: 'IS-MAIL-SENT',
+        isMailSent
+    }) as const
+}
+
+export const changeLoadingStatusAC = (isLoading: boolean) => {
+    return ({
+        type: 'CHANGE-LOADING-STATUS',
+        isLoading
+    }) as const
+}
+
 export const sentMailTH = (email: string) => (dispatch: Dispatch) => {
+    dispatch(changeLoadingStatusAC(true))
     passwordRecoveryApi.forgotPassword(email)
         .then(res => {
             dispatch(ResponseForgotPasswordAC(res.data.info))
+            dispatch(isMailSentAC(true))
+            dispatch(changeLoadingStatusAC(false))
         })
         .catch(error => {
             dispatch(forgotPasswordErrorAC(error.response.data.error))
+            dispatch(isMailSentAC(false))
+            dispatch(changeLoadingStatusAC(false))
         })
+
 }
 
 //types
-type ActionsType = ReturnType<typeof ResponseForgotPasswordAC> | ReturnType<typeof forgotPasswordErrorAC>
+type ActionsType =
+    ReturnType<typeof ResponseForgotPasswordAC>
+    | ReturnType<typeof forgotPasswordErrorAC>
+    | ReturnType<typeof isMailSentAC>
+    | ReturnType<typeof changeLoadingStatusAC>

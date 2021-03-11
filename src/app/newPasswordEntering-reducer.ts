@@ -17,7 +17,6 @@ export const newPasswordEnteringReducer = (state: InitialStateType = initialStat
             return {...state, passwordIsSet: action.passwordIsSet}
 
         case "SET-NEW-PASSWORD-ERROR": {
-            debugger
             return {...state, error: action.error}
         }
         default:

@@ -15,8 +15,8 @@ export const NewPasswordEntering = () => {
 
     const changePasswordHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
-
     }
+
     const changeRepeatPasswordHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setRepeatPassword(e.target.value)
     }

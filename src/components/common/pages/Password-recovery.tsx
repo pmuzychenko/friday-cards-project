@@ -2,12 +2,13 @@ import React, {ChangeEvent, useState} from "react";
 import style from './../pages/Password-recovery.module.css'
 import {
     forgotPasswordErrorAC,
-    InitialStatePasswordRecoveryType,
+    InitialStatePasswordRecoveryType, isMailSentAC,
     sentMailTH
 } from "../../../app/passwordRecovery-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../app/store";
 import {useParams} from "react-router-dom";
+import {Preloader} from "../preloader/Preloader";
 
 export const PasswordRecovery = () => {
     const {resetPasswordToken} = useParams<{ resetPasswordToken: string }>()
@@ -31,14 +32,23 @@ export const PasswordRecovery = () => {
     return (
         <div className={style.container}>
             Password-recovery page will be here
-            <div>
-                <input type="text" placeholder='Enter your email' value={mail} onChange={changeMailHandler}
-                       onKeyPress={resetError}/>
-                {passwordRecovery.forgotPasswordError !== "" ?
-                    <span className={style.message}>{passwordRecovery.forgotPasswordError}</span> :
-                    <span>{passwordRecovery.info}</span>}
-            </div>
-            <button onClick={sendMailHandler}>Send</button>
+            {passwordRecovery.isLoading && <Preloader/>}
+            {passwordRecovery.isMailSent ?
+                <div className={style.sentMailResponse}>click the link in the message in your email
+                    <span>{passwordRecovery.info}</span>
+                </div> : <div>
+                    <div>
+                        <input type="text" placeholder='Enter your email' value={mail} onChange={changeMailHandler}
+                               onKeyPress={resetError}/>
+                        {passwordRecovery.forgotPasswordError !== "" &&
+                        <span className={style.message}>{passwordRecovery.forgotPasswordError}</span>
+                        }
+                    </div>
+                    <button onClick={sendMailHandler}>Send</button>
+                </div>}
+
+
         </div>
+
     );
 }
