@@ -1,7 +1,7 @@
 import React from "react";
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../../app/store";
-import {UserDataType} from "../../../app/login-reducer";
+import {AppRootStateType} from "../../../../app/store";
+import {UserDataType} from "../../../../app/login-reducer";
 import styles from "./Profile.module.css"
 
 export const Profile = () => {

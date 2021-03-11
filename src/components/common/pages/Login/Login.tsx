@@ -1,12 +1,12 @@
 import React, {ChangeEvent, FormEvent, useState} from "react";
-import SuperButton from "../c2-SuperButton/SuperButton";
+import SuperButton from "../../c2-SuperButton/SuperButton";
 import styles from "./Login.module.css"
-import {loginTC} from "../../../app/login-reducer";
+import {loginTC} from "../../../../app/login-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../../app/store";
+import {AppRootStateType} from "../../../../app/store";
 import {Redirect} from "react-router-dom";
-import {RequestStatusType} from "../../../app/app-reducer";
-import preloader from "./../../../assets/images/preloader.gif"
+import {RequestStatusType} from "../../../../app/app-reducer";
+import preloader from "../../../../assets/images/preloader.gif"
 
 export const Login = () => {
     const [email, setEmail] = useState<string>('')

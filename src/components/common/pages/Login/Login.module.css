@@ -8,10 +8,9 @@
 
 .formFields .formFieldsInput {
     margin-bottom: 8px;
-    width: 25vw;
+    width: 15vw;
     height: 3vh;
 }
-
 
 .errorBlock {
     margin: 8px;
