@@ -41,7 +41,7 @@ export const Login = () => {
 
     return (
         <div>
-            {error && <div>{error}</div>}
+            {error && <div className={styles.errorBlock}>{error}</div>}
             <form onSubmit={submitLoginFormData}>
 
                 <div className={styles.formFields}>

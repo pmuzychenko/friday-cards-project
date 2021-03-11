@@ -5,3 +5,9 @@
     justify-content: center;
     align-items: center;
 }
+
+.errorBlock {
+    padding: 8px;
+    color: red;
+    font-weight: bold;
+}
