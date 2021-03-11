@@ -13,7 +13,7 @@ export const PATH = {
     login: '/login',
     passwordRecovery: '/passwordRecovery',
     profile:'/profile',
-    singIn:'/singIn',
+    signIn:'/signIn',
     newPassword:'/newPassword',
     superComponentsStand:'/superComponentsStand'
 
@@ -26,7 +26,7 @@ export const Routes = () => {
                 <Route path={'/login'} render={()=> <Login/>}/>
                 <Route exact path={'/profile'} render={()=> <Profile/>}/>
                 <Route exact path={'/passwordRecovery'} render={()=> <PasswordRecovery/>}/>
-                <Route exact path={'/singIn'} render={()=> <SignIn/>}/>
+                <Route exact path={'/signIn'} render={()=> <SignIn/>}/>
                 <Route exact path={'/newPassword'} render={()=> <SetNewPassword/>}/>
                 <Route exact path={'/superComponentsStand'} render={()=> <SuperComponentsStand/>}/>
                 <Route render={() => <Error404/>}/>
