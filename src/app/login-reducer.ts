@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {authAPI} from "./api";
+import {setAppErrorAC, setAppStatusAC} from "./app-reducer";
 
 export type LoginFormData = {
     email: string
@@ -24,13 +25,11 @@ export type UserDataType = {
 type UserAuthData = {
     data: UserDataType | null
     isLoggedIn: boolean
-    error: string
 }
 
 const initialState: UserAuthData = {
     isLoggedIn: false,
-    data: null,
-    error: ''
+    data: null
 }
 
 export const loginReducer = (state: UserAuthData = initialState, action: ActionsType): UserAuthData => {
@@ -38,15 +37,9 @@ export const loginReducer = (state: UserAuthData = initialState, action: Actions
         case 'login/SET-IS-LOGGED-IN': {
             return {...state, isLoggedIn: action.value}
         }
-
         case 'login/SET-USER-DATA': {
             return {...state, data: action.data}
         }
-
-        case 'login/SET-LOGGED-ERROR': {
-            return {...state, error: action.error}
-        }
-
         default:
             return state
     }
@@ -58,27 +51,28 @@ export const setIsLoggedInAC = (value: boolean) =>
 export const setUserDataAC = (data: UserDataType) =>
     ({type: 'login/SET-USER-DATA', data} as const)
 
-export const setUserLoggedErrorAC = (error: string) =>
-    ({type: 'login/SET-LOGGED-ERROR', error} as const)
-
 
 // thunks
 export const loginTC = (data: LoginFormData) => (dispatch: Dispatch) => {
-
+    dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
         .then((res) => {
+            dispatch(setAppStatusAC('succeeded'))
             dispatch(setIsLoggedInAC(true))
             dispatch(setUserDataAC(res.data))
         })
         .catch((e) => {
-            const error:string = e.response
+            dispatch(setAppStatusAC('failed'))
+            const error: string = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console')
-            dispatch(setUserLoggedErrorAC('Error: ' + error))
+            dispatch(setAppErrorAC('Error: ' + error))
         })
 }
 
 // types
 type ActionsType = ReturnType<typeof setIsLoggedInAC>
     | ReturnType<typeof setUserDataAC>
-    | ReturnType<typeof setUserLoggedErrorAC>
+    | ReturnType<typeof setAppErrorAC>
+
+
