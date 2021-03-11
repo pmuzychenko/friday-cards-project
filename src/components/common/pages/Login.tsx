@@ -35,6 +35,8 @@ export const Login = () => {
         e.preventDefault()
         const loginFormData = {email, password, rememberMe}
         dispatch(loginTC(loginFormData))
+        setEmail('')
+        setPassword('')
     }
 
     return (
