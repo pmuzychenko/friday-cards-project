@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {passwordRecoveryApi} from "../apiPasswordRecovery/api-passwordRecovery";
+import { api } from "../api/api";
 
 const initialState = {
     info: "",
@@ -53,9 +53,9 @@ export const changeLoadingStatusAC = (isLoading: boolean) => {
     }) as const
 }
 
-export const sentMailTH = (email: string) => (dispatch: Dispatch) => {
+export const sentMailTC = (email: string) => (dispatch: Dispatch) => {
     dispatch(changeLoadingStatusAC(true))
-    passwordRecoveryApi.forgotPassword(email)
+    api.forgotPassword(email)
         .then(res => {
             dispatch(ResponseForgotPasswordAC(res.data.info))
             dispatch(isMailSentAC(true))

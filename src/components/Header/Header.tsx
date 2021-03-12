@@ -1,6 +1,6 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
-import {PATH} from "../routes/Routes";
+import {PATH} from "../Routes/Routes";
 import styles from "./Header.module.css"
 
 function Header() {
@@ -9,7 +9,7 @@ function Header() {
             <nav>
                 <NavLink to={PATH.login}>{'login'}</NavLink>
                 <NavLink to={PATH.profile}>{'profile'}</NavLink>
-                <NavLink to={PATH.signIn}>{'sign-in'}</NavLink>
+                <NavLink to={PATH.signUp}>{'sign-up'}</NavLink>
                 <NavLink to={PATH.passwordRecovery}>{'password-recovery'}</NavLink>
                 <NavLink to={PATH.newPassword}>{'new-password'}</NavLink>
                 <NavLink to={PATH.superComponentsStand}>{'superComponentsStand'}</NavLink>

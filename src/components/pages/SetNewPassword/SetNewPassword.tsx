@@ -2,9 +2,9 @@ import React, {ChangeEvent, useState} from "react";
 import style from "./Password-recovery.module.css";
 import {Redirect, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import {changePasswordTH, InitialStateType} from "../../../../app/setNewPassword-reducer";
-import {setNewPasswordErrorAC} from "../../../../app/setNewPassword-reducer";
-import {AppRootStateType} from "../../../../app/store";
+import { changePasswordTC, InitialStateType, setNewPasswordErrorAC } from "../../../reducers/set-new-password-reducer";
+import { AppRootStateType } from "../../../reducers/store";
+
 
 export const SetNewPassword = () => {
     const {resetPasswordToken} = useParams<{ resetPasswordToken: string }>()
@@ -24,7 +24,7 @@ export const SetNewPassword = () => {
 
     const sendNewPassword = () => {
         if (password === repeatPassword) {
-            dispatch(changePasswordTH(password, resetPasswordToken))
+            dispatch(changePasswordTC(password, resetPasswordToken))
         } else {
             setError('Passwords are not equal')
         }

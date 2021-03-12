@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {passwordRecoveryApi} from "../apiPasswordRecovery/api-passwordRecovery";
+import { api } from "../api/api";
 
 const initialState: InitialStateType = {
     error: '',
@@ -36,8 +36,8 @@ export const setNewPasswordErrorAC = (error: string) => ({
 }) as const
 
 //thunks
-export const changePasswordTH = (password: string, resetPasswordToken: string) => (dispatch: Dispatch) => {
-    passwordRecoveryApi.recoverPassword(password, resetPasswordToken)
+export const changePasswordTC = (password: string, resetPasswordToken: string) => (dispatch: Dispatch) => {
+    api.recoverPassword(password, resetPasswordToken)
         .then(res => {
             dispatch(setNewPasswordAC(true))
         })

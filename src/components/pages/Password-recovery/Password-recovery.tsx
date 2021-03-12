@@ -1,13 +1,10 @@
 import React, {ChangeEvent, useState} from "react";
-import style from './../pages/Password-recovery.module.css'
+import style from '../SetNewPassword/Password-recovery.module.css'
 import {useDispatch, useSelector} from "react-redux";
-import {Preloader} from "../../preloader/Preloader";
-import {
-    forgotPasswordErrorAC,
-    InitialStatePasswordRecoveryType,
-    sentMailTH
-} from "../../../../app/passwordRecovery-reducer";
-import { AppRootStateType } from "../../../../app/store";
+import {Preloader} from "../../Preloader/Preloader";
+import { AppRootStateType } from "../../../reducers/store";
+import { forgotPasswordErrorAC, InitialStatePasswordRecoveryType, sentMailTC } from "../../../reducers/password-recovery-reducer";
+
 
 export const PasswordRecovery = () => {
     const [mail, setMail] = useState('')
@@ -20,7 +17,7 @@ export const PasswordRecovery = () => {
     }
 
     const sendMailHandler = () => {
-        dispatch(sentMailTH(mail))
+        dispatch(sentMailTC(mail))
     }
 
     const resetError = () => {

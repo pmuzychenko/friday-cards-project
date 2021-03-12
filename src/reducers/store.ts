@@ -2,15 +2,15 @@ import {applyMiddleware, combineReducers} from "redux";
 import {createStore} from "redux";
 import thunk from "redux-thunk";
 import {loginReducer} from "./login-reducer";
-import {passwordRecoveryReducer} from "./passwordRecovery-reducer";
+import {passwordRecoveryReducer} from "./password-recovery-reducer";
 import {profileReducer} from "./profile-reducer";
-import {signInReducer} from "./signIn-reducer";
-import {setNewPasswordReducer} from "./setNewPassword-reducer";
+import {setNewPasswordReducer} from "./set-new-password-reducer";
 import {appReducer} from "./app-reducer";
+import { signUpReducer } from "./signUp-reducer";
 
 const reducers = combineReducers({
     login: loginReducer,
-    registration: signInReducer,
+    registration: signUpReducer,
     profile: profileReducer,
     passwordRecovery: passwordRecoveryReducer,
     newPassword: setNewPasswordReducer,

@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '../components/common/header/Header';
-import {Routes} from "../components/common/routes/Routes";
+import Header from '../Header/Header';
+import {Routes} from "../Routes/Routes";
 import {HashRouter} from "react-router-dom";
 
 

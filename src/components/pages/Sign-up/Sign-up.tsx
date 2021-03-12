@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { signInTC } from "../../../../app/signIn-reducer";
-import { AppRootStateType } from "../../../../app/store";
-import SuperInputText from "../../c1-SuperInputText/SuperInputText";
-import SuperButton from "../../c2-SuperButton/SuperButton";
+import { signUpTC } from "../../../reducers/signUp-reducer";
+import { AppRootStateType } from "../../../reducers/store";
+import SuperInputText from "../../common/c1-SuperInputText/SuperInputText";
+import SuperButton from "../../common/c2-SuperButton/SuperButton";
 
-type SignInValuesType = {
+type SignUpValuesType = {
     email: string,
     password: string,
     repeatPassword: string,
@@ -18,13 +18,13 @@ type ErrorsType = {
     repeatPassword?: string,
 }
 
-export const SignIn = () => {
+export const SignUp = () => {
     const dispatch = useDispatch()
     const isSignUp = useSelector<AppRootStateType, boolean>((state) => state.registration.isSignUp)
     const serverError = useSelector<AppRootStateType, string | null>((state) => state.registration.error)
 
 
-    const [values, setValues] = useState<SignInValuesType>({
+    const [values, setValues] = useState<SignUpValuesType>({
         email: '',
         password: '',
         repeatPassword: ''
@@ -57,8 +57,8 @@ export const SignIn = () => {
     const validatePassword = () => {
         if (!values.password) {
             setErrors({ ...errors, password: 'Required' })
-        } else if (values.password.length < 4) {
-            setErrors({ ...errors, password: 'The min length of password should be 4' })
+        } else if (values.password.length < 8) {
+            setErrors({ ...errors, password: 'The min length of password should be 7' })
         } else {
             setErrors({ ...errors, password: '' })
         }
@@ -89,7 +89,7 @@ export const SignIn = () => {
         } else if (values.password !== values.repeatPassword) {
             setErrors({ ...errors, repeatPassword: 'This password does not match that entered in the password field, please try again' })
         } else {
-            dispatch(signInTC(values.email, values.password))
+            dispatch(signUpTC(values.email, values.password))
         }
     }
 

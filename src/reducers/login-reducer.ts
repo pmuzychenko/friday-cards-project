@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {authAPI} from "./api";
+import { api, ResponseUserDataType } from "../api/api";
 import {setAppErrorAC, setAppStatusAC} from "./app-reducer";
 
 export type LoginFormData = {
@@ -8,22 +8,8 @@ export type LoginFormData = {
     rememberMe: boolean
 }
 
-export type UserDataType = {
-    _id: string
-    email: string
-    name: string
-    avatar?: string
-    publicCardPacksCount: number // packs counter
-    created: string
-    updated: string
-    isAdmin: boolean
-    verified: boolean // email confirmation
-    rememberMe: boolean
-    error?: string
-}
-
 type UserAuthData = {
-    data: UserDataType | null
+    data: ResponseUserDataType | null
     isLoggedIn: boolean
 }
 
@@ -48,14 +34,14 @@ export const loginReducer = (state: UserAuthData = initialState, action: Actions
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
-export const setUserDataAC = (data: UserDataType) =>
+export const setUserDataAC = (data: ResponseUserDataType) =>
     ({type: 'login/SET-USER-DATA', data} as const)
 
 
 // thunks
 export const loginTC = (data: LoginFormData) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    authAPI.login(data)
+    api.login(data)
         .then((res) => {
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setIsLoggedInAC(true))
