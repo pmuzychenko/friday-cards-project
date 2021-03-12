@@ -21,6 +21,8 @@ type ErrorsType = {
 export const SignIn = () => {
     const dispatch = useDispatch()
     const isSignUp = useSelector<AppRootStateType, boolean>((state) => state.registration.isSignUp)
+    const serverError = useSelector<AppRootStateType, string | null>((state) => state.registration.error)
+
 
     const [values, setValues] = useState<SignInValuesType>({
         email: '',
@@ -99,6 +101,9 @@ export const SignIn = () => {
         <div>
             <h2>REGISTRATION</h2>
             <div>
+                <div>
+                    {serverError ? <div style={{ color: 'red' }}>{serverError}</div> : null}
+                </div>
                 <div>
                     <label>Email:</label>
                     <SuperInputText
