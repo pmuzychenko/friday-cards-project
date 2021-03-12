@@ -2,8 +2,9 @@ import React, {ChangeEvent, useState} from "react";
 import style from "./Password-recovery.module.css";
 import {Redirect, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import {changePasswordTH, InitialStateType, setNewPasswordErrorAC} from "../../../app/setNewPassword-reducer";
-import {AppRootStateType} from "../../../app/store";
+import {changePasswordTH, InitialStateType} from "../../../../app/setNewPassword-reducer";
+import {setNewPasswordErrorAC} from "../../../../app/setNewPassword-reducer";
+import {AppRootStateType} from "../../../../app/store";
 
 export const SetNewPassword = () => {
     const {resetPasswordToken} = useParams<{ resetPasswordToken: string }>()

@@ -1,17 +1,15 @@
 import React, {ChangeEvent, useState} from "react";
 import style from './../pages/Password-recovery.module.css'
+import {useDispatch, useSelector} from "react-redux";
+import {Preloader} from "../../preloader/Preloader";
 import {
     forgotPasswordErrorAC,
     InitialStatePasswordRecoveryType,
     sentMailTH
-} from "../../../app/passwordRecovery-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../../app/store";
-import {useParams} from "react-router-dom";
-import {Preloader} from "../preloader/Preloader";
+} from "../../../../app/passwordRecovery-reducer";
+import { AppRootStateType } from "../../../../app/store";
 
 export const PasswordRecovery = () => {
-    const {resetPasswordToken} = useParams<{ resetPasswordToken: string }>()
     const [mail, setMail] = useState('')
     const dispatch = useDispatch()
     const passwordRecovery = useSelector<AppRootStateType, InitialStatePasswordRecoveryType>(state => state.passwordRecovery)
