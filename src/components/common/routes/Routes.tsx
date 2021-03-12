@@ -3,10 +3,10 @@ import {Route, Switch, Redirect} from "react-router-dom";
 import {Login} from "../pages/Login/Login";
 import {PasswordRecovery} from "../pages/Password-recovery/Password-recovery";
 import {Profile} from "../pages/Profile/Profile";
-import {SignIn} from "../pages/Sign-in/Sing-in";
 import {SetNewPassword} from "../pages/SetNewPassword/SetNewPassword";
 import {Error404} from "../pages/Error404/Error404";
 import {SuperComponentsStand} from "../pages/SUperComponentsStand/SuperComponentsStand";
+import { SignIn } from "../pages/Sign-in/Sign-in";
 
 
 export const PATH = {
@@ -17,8 +17,8 @@ export const PATH = {
     newPassword:'/newPassword',
     superComponentsStand:'/superComponentsStand',
     error: '/404'
-
 }
+
 export const Routes = () => {
     return (
         <div>
