@@ -9,7 +9,7 @@ function Header() {
             <nav>
                 <NavLink to={PATH.login}>{'login'}</NavLink>
                 <NavLink to={PATH.profile}>{'profile'}</NavLink>
-                <NavLink to={PATH.singIn}>{'sign-in'}</NavLink>
+                <NavLink to={PATH.signIn}>{'sign-in'}</NavLink>
                 <NavLink to={PATH.passwordRecovery}>{'password-recovery'}</NavLink>
                 <NavLink to={PATH.newPassword}>{'new-password'}</NavLink>
                 <NavLink to={PATH.superComponentsStand}>{'superComponentsStand'}</NavLink>
