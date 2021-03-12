@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from "react";
 import style from './../pages/Password-recovery.module.css'
 import {
     forgotPasswordErrorAC,
-    InitialStatePasswordRecoveryType, isMailSentAC,
+    InitialStatePasswordRecoveryType,
     sentMailTH
 } from "../../../app/passwordRecovery-reducer";
 import {useDispatch, useSelector} from "react-redux";
@@ -37,14 +37,15 @@ export const PasswordRecovery = () => {
                 <div className={style.sentMailResponse}>click the link in the message in your email
                     <span>{passwordRecovery.info}</span>
                 </div> : <div>
-                    <div>
+                    <div className={style.form}>
                         <input type="text" placeholder='Enter your email' value={mail} onChange={changeMailHandler}
                                onKeyPress={resetError}/>
                         {passwordRecovery.forgotPasswordError !== "" &&
                         <span className={style.message}>{passwordRecovery.forgotPasswordError}</span>
                         }
+                        <button onClick={sendMailHandler}>Send</button>
                     </div>
-                    <button onClick={sendMailHandler}>Send</button>
+
                 </div>}
 
 

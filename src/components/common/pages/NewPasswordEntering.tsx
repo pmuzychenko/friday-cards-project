@@ -42,15 +42,14 @@ export const NewPasswordEntering = () => {
         <div className={style.container}>
             Page with form for new password entering will be here
             <div className={style.message}>{error}</div>
-            <div>
+            <div className={style.inputContainer}>
                 <input type="text" placeholder='set new password' value={password} onChange={changePasswordHandler}
                        onKeyPress={resetError}/>
                 {newPassword.error !== "" && <span className={style.message}>{newPassword.error}</span>}
             </div>
-            <div>
+            <div className={style.inputContainer}>
                 <input type="text" placeholder='set new password' value={repeatPassword}
                        onChange={changeRepeatPasswordHandler} onKeyPress={resetError}/>
-                {newPassword.error !== "" && <span className={style.message}>{newPassword.error}</span>}
             </div>
             <button onClick={sendNewPassword}>set new password</button>
         </div>
