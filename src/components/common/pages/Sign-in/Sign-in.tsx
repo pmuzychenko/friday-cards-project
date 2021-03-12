@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { signInTC } from "../../../app/signIn-reducer";
-import { AppRootStateType } from "../../../app/store";
-import SuperInputText from "../c1-SuperInputText/SuperInputText";
-import SuperButton from "../c2-SuperButton/SuperButton";
+import { signInTC } from "../../../../app/signIn-reducer";
+import { AppRootStateType } from "../../../../app/store";
+import SuperInputText from "../../c1-SuperInputText/SuperInputText";
+import SuperButton from "../../c2-SuperButton/SuperButton";
 
 type SignInValuesType = {
     email: string,
