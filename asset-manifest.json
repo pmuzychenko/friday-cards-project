@@ -1,22 +1,23 @@
 {
   "files": {
-    "main.css": "/friday-cards-project/static/css/main.348cf965.chunk.css",
-    "main.js": "/friday-cards-project/static/js/main.b56d3cc7.chunk.js",
-    "main.js.map": "/friday-cards-project/static/js/main.b56d3cc7.chunk.js.map",
-    "runtime-main.js": "/friday-cards-project/static/js/runtime-main.bef07fd9.js",
-    "runtime-main.js.map": "/friday-cards-project/static/js/runtime-main.bef07fd9.js.map",
-    "static/js/2.b156354b.chunk.js": "/friday-cards-project/static/js/2.b156354b.chunk.js",
-    "static/js/2.b156354b.chunk.js.map": "/friday-cards-project/static/js/2.b156354b.chunk.js.map",
-    "static/js/3.49117e39.chunk.js": "/friday-cards-project/static/js/3.49117e39.chunk.js",
-    "static/js/3.49117e39.chunk.js.map": "/friday-cards-project/static/js/3.49117e39.chunk.js.map",
+    "main.css": "/friday-cards-project/static/css/main.311ed885.chunk.css",
+    "main.js": "/friday-cards-project/static/js/main.542bc1c6.chunk.js",
+    "main.js.map": "/friday-cards-project/static/js/main.542bc1c6.chunk.js.map",
+    "runtime-main.js": "/friday-cards-project/static/js/runtime-main.f84cb675.js",
+    "runtime-main.js.map": "/friday-cards-project/static/js/runtime-main.f84cb675.js.map",
+    "static/js/2.bc815ffc.chunk.js": "/friday-cards-project/static/js/2.bc815ffc.chunk.js",
+    "static/js/2.bc815ffc.chunk.js.map": "/friday-cards-project/static/js/2.bc815ffc.chunk.js.map",
+    "static/js/3.f7e4b7d0.chunk.js": "/friday-cards-project/static/js/3.f7e4b7d0.chunk.js",
+    "static/js/3.f7e4b7d0.chunk.js.map": "/friday-cards-project/static/js/3.f7e4b7d0.chunk.js.map",
     "index.html": "/friday-cards-project/index.html",
-    "static/css/main.348cf965.chunk.css.map": "/friday-cards-project/static/css/main.348cf965.chunk.css.map",
-    "static/js/2.b156354b.chunk.js.LICENSE.txt": "/friday-cards-project/static/js/2.b156354b.chunk.js.LICENSE.txt"
+    "static/css/main.311ed885.chunk.css.map": "/friday-cards-project/static/css/main.311ed885.chunk.css.map",
+    "static/js/2.bc815ffc.chunk.js.LICENSE.txt": "/friday-cards-project/static/js/2.bc815ffc.chunk.js.LICENSE.txt",
+    "static/media/preloader.9ca08101.gif": "/friday-cards-project/static/media/preloader.9ca08101.gif"
   },
   "entrypoints": [
-    "static/js/runtime-main.bef07fd9.js",
-    "static/js/2.b156354b.chunk.js",
-    "static/css/main.348cf965.chunk.css",
-    "static/js/main.b56d3cc7.chunk.js"
+    "static/js/runtime-main.f84cb675.js",
+    "static/js/2.bc815ffc.chunk.js",
+    "static/css/main.311ed885.chunk.css",
+    "static/js/main.542bc1c6.chunk.js"
   ]
 }
