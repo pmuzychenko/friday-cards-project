@@ -1,21 +1,21 @@
 import React from "react";
 import {Route, Switch, Redirect} from "react-router-dom";
-import {Login} from "../pages/Login";
+import { Login } from "../pages/Login";
 import {PasswordRecovery} from "../pages/Password-recovery";
-import {Profile} from "../pages/Profile";
+import { Profile } from "../pages/Profile";
 import {SignIn} from "../pages/Sing-in";
-import {NewPasswordEntering} from "../pages/NewPasswordEntering";
+import {SetNewPassword} from "../pages/SetNewPassword";
 import {Error404} from "../pages/Error404";
-import {SuperComponentsStand} from "../pages/SuperComponentsStand";
+import { SuperComponentsStand } from "../pages/SuperComponentsStand";
 
 
 export const PATH = {
     login: '/login',
     passwordRecovery: '/passwordRecovery',
-    profile: '/profile',
-    singIn: '/singIn',
-    newPassword: '/newPassword',
-    superComponentsStand: '/superComponentsStand'
+    profile:'/profile',
+    signIn:'/signIn',
+    newPassword:'/newPassword',
+    superComponentsStand:'/superComponentsStand'
 
 }
 export const Routes = () => {
@@ -26,11 +26,11 @@ export const Routes = () => {
                 <Route path={'/login'} render={() => <Login/>}/>
                 <Route exact path={'/profile'} render={() => <Profile/>}/>
                 <Route exact path={'/passwordRecovery'} render={() => <PasswordRecovery/>}/>
-                <Route exact path={'/singIn'} render={() => <SignIn/>}/>
-                <Route path={'/newPassword/:resetPasswordToken'} render={() => <NewPasswordEntering/>}/>
+                <Route exact path={'/signIn'} render={() => <SignIn/>}/>
+                <Route path={'/newPassword/:resetPasswordToken'} render={() => <SetNewPassword/>}/>
                 <Route exact path={'/superComponentsStand'} render={() => <SuperComponentsStand/>}/>
                 <Route render={() => <Error404/>}/>
             </Switch>
         </div>
-    );
+);
 }

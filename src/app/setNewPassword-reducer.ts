@@ -11,7 +11,7 @@ export type InitialStateType = {
     passwordIsSet: boolean
 }
 
-export const newPasswordEnteringReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const setNewPasswordReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case "SET-NEW-PASSWORD":
             return {...state, passwordIsSet: action.passwordIsSet}
