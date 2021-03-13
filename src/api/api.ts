@@ -20,6 +20,12 @@ export const api = {
     login(data: LoginFormData) {
         return instance.post<ResponseUserDataType>('/auth/login', data)
     },
+    logout() {
+        return instance.delete('/auth/me', {})
+    },
+    authMe(){
+        return instance.post('/auth/me', {})
+    },
     signUp(email: string, password: string) {
         return instance.post<ResponseSignUpType>(`auth/register`, { email, password })
     },
