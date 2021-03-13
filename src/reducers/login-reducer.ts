@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import { api, ResponseUserDataType } from "../api/api";
+import {api, ResponseUserDataType} from "../api/api";
 import {setAppErrorAC, setAppStatusAC} from "./app-reducer";
 
 export type LoginFormData = {
@@ -34,7 +34,7 @@ export const loginReducer = (state: UserAuthData = initialState, action: Actions
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
-export const setUserDataAC = (data: ResponseUserDataType) =>
+export const setUserDataAC = (data: ResponseUserDataType | null) =>
     ({type: 'login/SET-USER-DATA', data} as const)
 
 
@@ -46,6 +46,40 @@ export const loginTC = (data: LoginFormData) => (dispatch: Dispatch) => {
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setIsLoggedInAC(true))
             dispatch(setUserDataAC(res.data))
+        })
+        .catch((e) => {
+            dispatch(setAppStatusAC('failed'))
+            const error: string = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console')
+            dispatch(setAppErrorAC('Error: ' + error))
+        })
+}
+
+export const authMeTC = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    api.authMe()
+        .then((res) => {
+            dispatch(setUserDataAC(res.data))
+            dispatch(setIsLoggedInAC(true))
+            dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch((e) => {
+            dispatch(setAppStatusAC('failed'))
+            const error: string = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console')
+            dispatch(setAppErrorAC('Error: ' + error))
+        })
+}
+
+export const logoutTC = () => (dispatch: Dispatch) => {
+    //dispatch(setAppStatusAC('loading'))
+    api.logout()
+        .then((res) => {
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setIsLoggedInAC(false))
+            dispatch(setUserDataAC(null))
         })
         .catch((e) => {
             dispatch(setAppStatusAC('failed'))
