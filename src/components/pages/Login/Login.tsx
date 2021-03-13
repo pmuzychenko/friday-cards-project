@@ -7,6 +7,7 @@ import { RequestStatusType } from "../../../reducers/app-reducer";
 import { loginTC } from "../../../reducers/login-reducer";
 import SuperButton from "../../common/c2-SuperButton/SuperButton";
 import { Preloader } from "../../Preloader/Preloader";
+import {ResponseUserDataType} from "../../../api/api";
 
 export const Login = () => {
     const [email, setEmail] = useState<string>('')
@@ -17,8 +18,9 @@ export const Login = () => {
     const isUserLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
     const error = useSelector<AppRootStateType, string | null>(state => state.appStatus.error)
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.appStatus.status)
+    const userProfileData = useSelector<AppRootStateType, ResponseUserDataType | null>(state => state.login.data)
 
-    if (isUserLoggedIn) {
+    if (isUserLoggedIn || userProfileData) {
         return <Redirect to={'/profile'} />
     }
 
