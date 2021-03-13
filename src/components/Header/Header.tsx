@@ -6,14 +6,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../reducers/store";
 import {logoutTC} from "../../reducers/login-reducer";
 import {ResponseUserDataType} from "../../api/api";
+import {Preloader} from "../Preloader/Preloader";
 
 function Header() {
     const dispatch = useDispatch()
     const userProfileData = useSelector<AppRootStateType, ResponseUserDataType | null>(state => state.login.data)
     const isUserLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const isAuth = useSelector<AppRootStateType, boolean>(state => state.login.isAuth)
+
 
     const onLogoutClick = () => {
         dispatch(logoutTC())
+    }
+
+    if(!isAuth) {
+        return <Preloader/>
     }
 
     if (userProfileData && isUserLoggedIn) {
