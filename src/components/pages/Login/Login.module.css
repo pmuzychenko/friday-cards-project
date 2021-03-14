@@ -1,25 +1,9 @@
-.formFields {
-    margin: 50px;
+.loginFormContainer {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
-.formFields .formFieldsInput {
-    margin-bottom: 8px;
-    width: 15vw;
-    height: 3vh;
-}
-
-.errorBlock {
-    margin: 8px;
-    padding: 5px;
-    color: red;
-    font-weight: bold;
-}
-
-.preloader {
-    display: flex;
-    justify-content: center;
+.forgetPasswordContainer a {
+    text-decoration: none;
 }

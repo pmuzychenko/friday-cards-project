@@ -1,50 +1,58 @@
-import React from "react";
-import {NavLink} from "react-router-dom";
-import {PATH} from "../Routes/Routes";
-import styles from "./Header.module.css"
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../reducers/store";
-import {logoutTC} from "../../reducers/login-reducer";
-import {ResponseUserDataType} from "../../api/api";
-import {Preloader} from "../Preloader/Preloader";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+
+import { PATH } from "../Routes/Routes";
+import { AppRootStateType } from "../../reducers/store";
+import { logoutTC } from "../../reducers/login-reducer";
+
+const useStyles = makeStyles((theme: Theme) => ({
+    root: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+    },
+}));
 
 function Header() {
     const dispatch = useDispatch()
-    const userProfileData = useSelector<AppRootStateType, ResponseUserDataType | null>(state => state.login.data)
     const isUserLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-    const isAuth = useSelector<AppRootStateType, boolean>(state => state.login.isAuth)
 
+    const [selectedTab, setSelectedTab] = useState('');
 
-    const onLogoutClick = () => {
+    const classes = useStyles();
+
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
+        setSelectedTab(newValue);
+    };
+
+    const onLogoutClickHandler = () => {
         dispatch(logoutTC())
     }
 
-    if(!isAuth) {
-        return <Preloader/>
-    }
-
-    if (userProfileData && isUserLoggedIn) {
-        return <div className={styles.mainHeader}>
-            <nav>
-                <NavLink to={PATH.profile}>{'profile'}</NavLink>
-                <NavLink to={PATH.signUp}>{'sign-up'}</NavLink>
-                <NavLink to={PATH.passwordRecovery}>{'password-recovery'}</NavLink>
-                <NavLink to={PATH.newPassword}>{'new-password'}</NavLink>
-                <button onClick={onLogoutClick}>logout</button>
-            </nav>
+    if (isUserLoggedIn) {
+        return <div className={classes.root}>
+            <AppBar position="static">
+                <Tabs value={selectedTab} onChange={handleChange} aria-label="header tabs">
+                    <Tab label='profile' value='/profile' component={Link} to={PATH.profile} />
+                    <Tab label='logout' onClick={onLogoutClickHandler} />
+                </Tabs>
+            </AppBar>
         </div>
     }
 
     return (
-        <div className={styles.mainHeader}>
-            <nav>
-                <NavLink to={PATH.login}>{'login'}</NavLink>
-                <NavLink to={PATH.profile}>{'profile'}</NavLink>
-                <NavLink to={PATH.signUp}>{'sign-up'}</NavLink>
-                <NavLink to={PATH.passwordRecovery}>{'password-recovery'}</NavLink>
-                <NavLink to={PATH.newPassword}>{'new-password'}</NavLink>
-                <NavLink to={PATH.superComponentsStand}>{'superComponentsStand'}</NavLink>
-            </nav>
+        <div className={classes.root}>
+            <AppBar position="static">
+                <Tabs value={selectedTab} onChange={handleChange} aria-label="simple tabs example">
+                    <Tab label='login' value='/login' component={Link} to={PATH.login} />
+                    <Tab label='sign up' value='/signUp' component={Link} to={PATH.signUp} />
+                </Tabs>
+            </AppBar>
         </div>
     );
 }

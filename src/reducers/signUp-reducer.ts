@@ -1,13 +1,12 @@
 import { Dispatch } from "redux"
 import { api } from "../api/api"
+import { setAppErrorAC, setAppStatusAC } from "./app-reducer"
 
 const initialState = {
     isSignUp: false,
-    error: null
 }
 type InitialStateType = {
     isSignUp: boolean
-    error: string | null
 }
 
 export const signUpReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -15,24 +14,22 @@ export const signUpReducer = (state: InitialStateType = initialState, action: Ac
         case 'SET-IS-SIGN-UP': {
             return { ...state, isSignUp: action.value }
         }
-        case 'SET-ERROR-SIGN-UP': {
-            return { ...state, error: action.error }
-        }
         default:
             return state
     }
 }
 
 // thunks
-export const signUpTC = (email: string, password: string) => (dispatch: Dispatch<ActionsType>) => {
+export const signUpTC = (email: string, password: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     api.signUp(email, password)
         .then(res => {
-            // console.log(res)
+            dispatch(setAppStatusAC('succeeded'))
             dispatch(setIsSignUpAC(true))
         })
         .catch(error => {
-            // console.log(error)
-            dispatch(setSignUpErrorAC(error.response.data.error))
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC('Error: ' + error.response.data.error))
         })
 }
 

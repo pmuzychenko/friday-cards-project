@@ -1,28 +1,19 @@
-import {Dispatch} from "redux";
+import { Dispatch } from "redux";
 import { api } from "../api/api";
+import { setAppErrorAC, setAppStatusAC } from "./app-reducer";
 
 const initialState = {
     info: "",
-    forgotPasswordError: "",
     isMailSent: false,
-    isLoading: false
 }
 export type InitialStatePasswordRecoveryType = typeof initialState
 
 export const passwordRecoveryReducer = (state: InitialStatePasswordRecoveryType = initialState, action: ActionsType): InitialStatePasswordRecoveryType => {
     switch (action.type) {
-        case "FORGOT-PASSWORD-RESPONSE":
-            return {...state, info: action.info}
-
-        case "SET-FORGOT-PASSWORD-ERROR":
-            return {...state, forgotPasswordError: action.forgotPasswordError}
-
+        case 'FORGOT-PASSWORD-RESPONSE':
+            return { ...state, info: action.info }
         case 'IS-MAIL-SENT':
-            return {...state, isMailSent: action.isMailSent}
-
-        case 'CHANGE-LOADING-STATUS' :
-            return {...state, isLoading: action.isLoading}
-
+            return { ...state, isMailSent: action.isMailSent }
         default:
             return state
     }
@@ -30,13 +21,8 @@ export const passwordRecoveryReducer = (state: InitialStatePasswordRecoveryType 
 
 //actions
 export const ResponseForgotPasswordAC = (info: string) => ({
-    type: "FORGOT-PASSWORD-RESPONSE",
+    type: 'FORGOT-PASSWORD-RESPONSE',
     info
-}) as const
-
-export const forgotPasswordErrorAC = (forgotPasswordError: string) => ({
-    type: 'SET-FORGOT-PASSWORD-ERROR',
-    forgotPasswordError
 }) as const
 
 export const isMailSentAC = (isMailSent: boolean) => {
@@ -46,25 +32,18 @@ export const isMailSentAC = (isMailSent: boolean) => {
     }) as const
 }
 
-export const changeLoadingStatusAC = (isLoading: boolean) => {
-    return ({
-        type: 'CHANGE-LOADING-STATUS',
-        isLoading
-    }) as const
-}
-
 export const sentMailTC = (email: string) => (dispatch: Dispatch) => {
-    dispatch(changeLoadingStatusAC(true))
+    dispatch(setAppStatusAC('loading'))
     api.forgotPassword(email)
         .then(res => {
             dispatch(ResponseForgotPasswordAC(res.data.info))
             dispatch(isMailSentAC(true))
-            dispatch(changeLoadingStatusAC(false))
+            dispatch(setAppStatusAC('succeeded'))
         })
         .catch(error => {
-            dispatch(forgotPasswordErrorAC(error.response.data.error))
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC('Error: ' + error.response.data.error))
             dispatch(isMailSentAC(false))
-            dispatch(changeLoadingStatusAC(false))
         })
 
 }
@@ -72,6 +51,4 @@ export const sentMailTC = (email: string) => (dispatch: Dispatch) => {
 //types
 type ActionsType =
     ReturnType<typeof ResponseForgotPasswordAC>
-    | ReturnType<typeof forgotPasswordErrorAC>
     | ReturnType<typeof isMailSentAC>
-    | ReturnType<typeof changeLoadingStatusAC>

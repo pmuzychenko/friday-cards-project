@@ -1,24 +1,19 @@
-import {Dispatch} from "redux";
+import { Dispatch } from "redux";
 import { api } from "../api/api";
+import { setAppErrorAC } from "./app-reducer";
 
 const initialState: InitialStateType = {
-    error: '',
     passwordIsSet: false
 }
 
 export type InitialStateType = {
-    error: string
     passwordIsSet: boolean
 }
 
 export const setNewPasswordReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case "SET-NEW-PASSWORD":
-            return {...state, passwordIsSet: action.passwordIsSet}
-
-        case "SET-NEW-PASSWORD-ERROR": {
-            return {...state, error: action.error}
-        }
+            return { ...state, passwordIsSet: action.passwordIsSet }
         default:
             return state
     }
@@ -30,11 +25,6 @@ export const setNewPasswordAC = (passwordIsSet: boolean) => ({
     passwordIsSet
 }) as const
 
-export const setNewPasswordErrorAC = (error: string) => ({
-    type: "SET-NEW-PASSWORD-ERROR",
-    error
-}) as const
-
 //thunks
 export const changePasswordTC = (password: string, resetPasswordToken: string) => (dispatch: Dispatch) => {
     api.recoverPassword(password, resetPasswordToken)
@@ -42,10 +32,10 @@ export const changePasswordTC = (password: string, resetPasswordToken: string) =
             dispatch(setNewPasswordAC(true))
         })
         .catch(error => {
-            dispatch(setNewPasswordErrorAC(error.response.data.error))
+            dispatch(setAppErrorAC('Error: ' + error.response.data.error))
         })
 }
 
 //types
-type ActionsType = ReturnType<typeof setNewPasswordAC> | ReturnType<typeof setNewPasswordErrorAC>
+type ActionsType = ReturnType<typeof setNewPasswordAC>
 

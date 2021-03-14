@@ -6,7 +6,9 @@ const initialState = {
     status: 'idle' as RequestStatusType,
     error: null as ResponseErrorType
 }
+
 type InitialStateType = typeof initialState
+
 export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'APP/SET-STATUS': {
@@ -25,10 +27,10 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
             return state
     }
 }
-type ActionsType = setAppStatusActionType | setAppErrorActionType
+
 export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
 export const setAppErrorAC = (error: ResponseErrorType) => ({type: 'APP/SET-ERROR', error} as const)
 
-
+type ActionsType = setAppStatusActionType | setAppErrorActionType
 export type setAppStatusActionType = ReturnType<typeof setAppStatusAC>
 export type setAppErrorActionType = ReturnType<typeof setAppErrorAC>

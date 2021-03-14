@@ -1,84 +1,97 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
-import styles from "./Login.module.css"
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
+import { useFormik } from "formik";
+import { Checkbox, FormControl, FormControlLabel, FormGroup, TextField, Button } from '@material-ui/core'
+
+import styles from './Login.module.css'
 import { AppRootStateType } from "../../../reducers/store";
-import { RequestStatusType } from "../../../reducers/app-reducer";
 import { loginTC } from "../../../reducers/login-reducer";
-import SuperButton from "../../common/c2-SuperButton/SuperButton";
-import { Preloader } from "../../Preloader/Preloader";
-import {ResponseUserDataType} from "../../../api/api";
+import { PATH } from "../../Routes/Routes";
+
+
+type FormikErrorType = {
+    email?: string
+    password?: string
+    rememberMe?: boolean
+}
 
 export const Login = () => {
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-    const [rememberMe, setRememberMe] = useState<boolean>(false)
-
     const dispatch = useDispatch()
     const isUserLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-    const error = useSelector<AppRootStateType, string | null>(state => state.appStatus.error)
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.appStatus.status)
-    const userProfileData = useSelector<AppRootStateType, ResponseUserDataType | null>(state => state.login.data)
 
-    if (isUserLoggedIn || userProfileData) {
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+            rememberMe: false
+        },
+        validate: (values) => {
+            const errors: FormikErrorType = {};
+            if (!values.email) {
+                errors.email = 'Required';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address';
+            }
+
+            if (!values.password) {
+                errors.password = 'Required';
+            } else if (values.password.length < 8) {
+                errors.password = 'Invalid password';
+            }
+            return errors;
+        },
+        onSubmit: values => {
+            dispatch(loginTC(values))
+            formik.resetForm()
+        },
+    })
+
+    if (isUserLoggedIn) {
         return <Redirect to={'/profile'} />
     }
 
-    const emailHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setEmail(event.currentTarget.value)
-    }
-
-    const passwordHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.currentTarget.value)
-    }
-
-    const rememberMeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setRememberMe(event.currentTarget.checked)
-    }
-
-    const submitLoginFormData = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        const loginFormData = { email, password, rememberMe }
-        dispatch(loginTC(loginFormData))
-        setEmail('')
-        setPassword('')
-    }
-
     return (
-        <div>
-
-            {error && <div className={styles.errorBlock}>{error}</div>}
-
-            <form onSubmit={submitLoginFormData}>
-
-                <div className={styles.formFields}>
-                    <input type="text"
-                        placeholder={'Enter your email'}
-                        value={email}
-                        pattern={"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$"}
-                        onChange={emailHandler}
-                        className={styles.formFieldsInput}
-                    />
-                    <input type="password"
-                        placeholder={'Enter your password'}
-                        value={password}
-                        //    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-                        onChange={passwordHandler}
-                        className={styles.formFieldsInput}
-                    />
-                    <div>
-                        <input type="checkbox"
-                            checked={rememberMe}
-                            onChange={rememberMeHandler}
-                            name="checkbox"
-                            id="checkbox"
+        <div className={styles.loginFormContainer}>
+            <form onSubmit={formik.handleSubmit}>
+                <FormControl>
+                    <FormGroup>
+                        <TextField
+                            label="Email"
+                            margin="normal"
+                            {...formik.getFieldProps('email')}
                         />
-                        <label htmlFor="checkbox">Remember me</label>
-                    </div>
-                    <SuperButton type={'submit'} disabled={status === 'loading'}>Submit</SuperButton>
-                </div>
-                {status === 'loading' && <Preloader />}
+                        {
+                            formik.touched.email && formik.errors.email
+                                ? <div style={{ color: 'red' }}>{formik.errors.email}</div>
+                                : null
+                        }
+                        <TextField
+                            type="password"
+                            label="Password"
+                            margin="normal"
+                            {...formik.getFieldProps('password')}
+                        />
+                        {
+                            formik.touched.password && formik.errors.password
+                                ? <div style={{ color: 'red' }}>{formik.errors.password}</div>
+                                : null
+                        }
+                        <FormControlLabel
+                            label={'Remember me'}
+                            control={<Checkbox
+                                onChange={formik.handleChange}
+                                checked={formik.values.rememberMe}
+                                name='rememberMe'
+                            />}
+                        />
+                        <Button type={'submit'} variant={'contained'} color={'primary'}>Login</Button>
+                    </FormGroup>
+                </FormControl>
             </form>
+            <div className={styles.forgetPasswordContainer}>
+                <NavLink to={PATH.passwordRecovery}>{'Forget password'}</NavLink>
+            </div>
         </div>
     );
 }
