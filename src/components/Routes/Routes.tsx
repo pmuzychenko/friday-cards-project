@@ -8,6 +8,7 @@ import { PasswordRecovery } from "../pages/PasswordRecovery/PasswordRecovery";
 import { Profile } from "../pages/Profile/Profile";
 import { SetNewPassword } from "../pages/SetNewPassword/SetNewPassword";
 import { SignUp } from "../pages/SignUp/SignUp";
+import {Packs} from "../pages/Packs/Packs";
 
 
 export const PATH = {
@@ -16,7 +17,8 @@ export const PATH = {
     profile: '/profile',
     signUp: '/signUp',
     newPassword: '/newPassword',
-    error: '/404'
+    error: '/404',
+    packs: '/packs'
 }
 
 
@@ -28,6 +30,7 @@ export const Routes = () => {
                 <Route path={PATH.login} render={() => <Login />} />
                 <Route exact path={PATH.signUp} render={() => <SignUp />} />
                 <Route exact path={PATH.profile} render={() => <Profile />} />
+                <Route exact path={PATH.packs} render={() => <Packs />} />
                 <Route exact path={PATH.passwordRecovery} render={() => <PasswordRecovery />} />
                 <Route path={`${PATH.newPassword}/:resetPasswordToken`} render={() => <SetNewPassword />} />
                 <Route path={PATH.error} render={() => <Error404 />} />

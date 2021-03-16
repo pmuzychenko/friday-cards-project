@@ -39,6 +39,7 @@ function Header() {
             <AppBar position="static">
                 <Tabs value={selectedTab} onChange={handleChange} aria-label="header tabs">
                     <Tab label='profile' value='/profile' component={Link} to={PATH.profile} />
+                    <Tab label='packs' value='/packs' component={Link} to={PATH.packs} />
                     <Tab label='logout' onClick={onLogoutClickHandler} />
                 </Tabs>
             </AppBar>
