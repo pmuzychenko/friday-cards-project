@@ -35,7 +35,7 @@ export function Packs() {
         dispatch(getPacksTC(pageNumber, pageSize))
     }
 
-    const addPack = (e: any, name: string = 'FRIDAY-PROJECT-PACK') => {
+    const addPack = (e: any, name: string = 'PROJECT-PACK') => {
         dispatch(addPackTC(name))
         dispatch(getPacksTC(currentPage, pageSize))
     }
@@ -49,7 +49,7 @@ export function Packs() {
     }
     
     // работает, но затирает стиль текущей страницы
-    // if(status === 'loading') {
+    // if (status === 'loading') {
     //     return <Preloader />
     // }
 

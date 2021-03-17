@@ -57,12 +57,15 @@ export const loginTC = (data: LoginFormData) => (dispatch: Dispatch) => {
 }
 
 export const authMeTC = () => (dispatch: Dispatch) => {
+    debugger
     dispatch(setAppStatusAC('loading'))
     api.authMe()
         .then((res) => {
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setUserDataAC(res.data))
-            dispatch(setIsLoggedInAC(true))
+            if (res.data) {
+                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setUserDataAC(res.data))
+                dispatch(setIsLoggedInAC(true))
+            }
         })
         .catch((e) => {
             dispatch(setAppStatusAC('failed'))
