@@ -13,9 +13,7 @@ const initialState = {
     ],
     page: 1,
     pageCount: 8,
-    cardPacksTotalCount: 8,
-    maxCardsCount: null,
-    minCardsCount: null,
+    cardPacksTotalCount: 8
 }
 
 export type PackType = {
@@ -44,8 +42,6 @@ type InitialStateType = {
     page: number
     pageCount: number
     cardPacksTotalCount: number
-    maxCardsCount: number | null
-    minCardsCount: number | null
 }
 
 export const packsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -66,7 +62,7 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 
 // thunks
 export const getPacksTC = (page: number, pageCount: number) => (dispatch: Dispatch) => {
-    // dispatch(setAppStatusAC('loading'))
+    dispatch(setAppStatusAC('loading'))
     dispatch(setCurrentPageAC(page))
     apiPacks.getPacks(page, pageCount)
         .then(res => {
@@ -82,12 +78,8 @@ export const getPacksTC = (page: number, pageCount: number) => (dispatch: Dispat
 
 // actions
 export const setPacksAC = (packs: Array<PackType>) => ({ type: 'SET-PACKS', packs } as const)
-
 export const setCurrentPageAC = (currentPage: number) => ({ type: 'SET-CURRENT-PAGE', currentPage } as const)
-
 export const setCardPacksTotalCountAC = (cardPacksTotalCount: number) => ({ type: 'SET-PACKS-TOTAL-COUNT', cardPacksTotalCount } as const)
 
 // types
-type ActionsType = ReturnType<typeof setPacksAC>
-    | ReturnType<typeof setCurrentPageAC>
-    | ReturnType<typeof setCardPacksTotalCountAC>
+type ActionsType = ReturnType<typeof setPacksAC> | ReturnType<typeof setCurrentPageAC> | ReturnType<typeof setCardPacksTotalCountAC>

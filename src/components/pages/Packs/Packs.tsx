@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { AppRootStateType } from '../../../reducers/store';
 import { ColumnType, getPacksTC, PackType } from '../../../reducers/packs-reducer';
-import Pagination from '../../common/Pagination';
-import { authMeTC } from '../../../reducers/login-reducer';
+import Pagination from '../../common/Pagination/Pagination';
 
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
@@ -18,9 +17,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
+import { Redirect } from 'react-router-dom';
+import { Preloader } from '../../Preloader/Preloader';
 
 export function Packs() {
     const dispatch = useDispatch()
+    const status = useSelector<AppRootStateType, string>(state => state.app.status)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
     const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.packs)
     const columns = useSelector<AppRootStateType, Array<ColumnType>>(state => state.packs.columns)
     const cardPacksTotalCount = useSelector<AppRootStateType, number>(state => state.packs.cardPacksTotalCount)
@@ -33,9 +36,17 @@ export function Packs() {
     }
 
     useEffect(() => {
-        dispatch(authMeTC())
         dispatch(getPacksTC(currentPage, pageSize))
     }, [])
+
+    if (!isLoggedIn) {
+        return <Redirect to={'/login'} />
+    }
+    
+    // работает, но затирает стиль текущей страницы
+    // if(status === 'loading') {
+    //     return <Preloader />
+    // }
 
     return (
         <TableContainer component={Paper}>

@@ -49,6 +49,4 @@ export const sentMailTC = (email: string) => (dispatch: Dispatch) => {
 }
 
 //types
-type ActionsType =
-    ReturnType<typeof ResponseForgotPasswordAC>
-    | ReturnType<typeof isMailSentAC>
+type ActionsType = ReturnType<typeof ResponseForgotPasswordAC> | ReturnType<typeof isMailSentAC>
