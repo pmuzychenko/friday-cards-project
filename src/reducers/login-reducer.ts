@@ -12,11 +12,13 @@ export type LoginFormData = {
 type UserAuthData = {
     data: ResponseUserDataType | null
     isLoggedIn: boolean
+    isInitialized: boolean
 }
 
 const initialState: UserAuthData = {
     data: null,
     isLoggedIn: false,
+    isInitialized: false
 }
 
 export const loginReducer = (state: UserAuthData = initialState, action: ActionsType): UserAuthData => {
@@ -27,6 +29,8 @@ export const loginReducer = (state: UserAuthData = initialState, action: Actions
         case 'login/SET-IS-LOGGED-IN': {
             return { ...state, isLoggedIn: action.value }
         }
+        case 'SET-IS-INITIALIED':
+            return {...state, isInitialized: action.value}
         default:
             return state
     }
@@ -37,6 +41,8 @@ export const setUserDataAC = (data: ResponseUserDataType | null) =>
 
 export const setIsLoggedInAC = (value: boolean) =>
     ({ type: 'login/SET-IS-LOGGED-IN', value } as const)
+
+export const setAppInitializedAC = (value: boolean) => ({type: 'SET-IS-INITIALIED', value} as const)
 
 // thunks
 export const loginTC = (data: LoginFormData) => (dispatch: Dispatch) => {
@@ -57,12 +63,15 @@ export const loginTC = (data: LoginFormData) => (dispatch: Dispatch) => {
 }
 
 export const authMeTC = () => (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC('loading'))
+    // dispatch(setAppStatusAC('loading'))
     api.authMe()
         .then((res) => {
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setUserDataAC(res.data))
-            dispatch(setIsLoggedInAC(true))
+            if (res.data) {
+                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setUserDataAC(res.data))
+                dispatch(setIsLoggedInAC(true))
+            }
+            dispatch(setAppInitializedAC(true));
         })
         .catch((e) => {
             dispatch(setAppStatusAC('failed'))
@@ -94,3 +103,4 @@ export const logoutTC = () => (dispatch: Dispatch) => {
 type ActionsType = ReturnType<typeof setIsLoggedInAC>
     | ReturnType<typeof setUserDataAC>
     | ReturnType<typeof setAppErrorAC>
+    | ReturnType<typeof setAppInitializedAC>

@@ -1,29 +1,83 @@
 import * as React from 'react';
-import {DataGrid} from '@material-ui/data-grid';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-const columns = [
-    {field: 'name', headerName: 'Name', width: 130},
-    {field: 'cardsAmount', headerName: 'Amount of cards', type: 'number', width: 180},
-    {field: 'updatedDate', headerName: 'Date of updates', width: 180},
-    {field: 'owner', headerName: 'Owner', width: 180},
-];
 
-const rows = [
-    {id: 1, name: 'Snow', owner: 'Jon', cardsAmount: 35, updatedDate: '16-03-2021'},
-    {id: 2, name: 'Lannister', owner: 'Cersei', cardsAmount: 42, updatedDate: '16-03-2021'},
-    {id: 3, name: 'Lannister', owner: 'Jaime', cardsAmount: 45, updatedDate: '16-03-2021'},
-    {id: 4, name: 'Stark', owner: 'Arya', cardsAmount: 16, updatedDate: '16-03-2021'},
-    {id: 5, name: 'Targaryen', owner: 'Daenerys', cardsAmount: 45, updatedDate: '16-03-2021'},
-    {id: 6, name: 'Melisandre', owner: 'Me', cardsAmount: 150, updatedDate: '16-03-2021'},
-    {id: 7, name: 'Clifford', owner: 'Ferrara', cardsAmount: 44, updatedDate: '16-03-2021'},
-    {id: 8, name: 'Frances', owner: 'Rossini', cardsAmount: 36, updatedDate: '16-03-2021'},
-    {id: 9, name: 'Roxie', owner: 'Harvey', cardsAmount: 65, updatedDate: '16-03-2021'},
-];
+import { AppRootStateType } from '../../../reducers/store';
+import { ColumnType, getPacksTC, PackType } from '../../../reducers/packs-reducer';
+import Pagination from '../../common/Pagination';
+import { authMeTC } from '../../../reducers/login-reducer';
+
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import IconButton from '@material-ui/core/IconButton';
+import { Delete, Edit } from '@material-ui/icons';
+import TableHead from '@material-ui/core/TableHead';
+import Button from '@material-ui/core/Button';
+import TableContainer from '@material-ui/core/TableContainer';
+import Paper from '@material-ui/core/Paper';
+import TableBody from '@material-ui/core/TableBody';
+import Table from '@material-ui/core/Table';
 
 export function Packs() {
+    const dispatch = useDispatch()
+    const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.packs)
+    const columns = useSelector<AppRootStateType, Array<ColumnType>>(state => state.packs.columns)
+    const cardPacksTotalCount = useSelector<AppRootStateType, number>(state => state.packs.cardPacksTotalCount)
+    const pageSize = useSelector<AppRootStateType, number>(state => state.packs.pageCount)
+    const currentPage = useSelector<AppRootStateType, number>(state => state.packs.page)
+    const pagesAmount = Math.ceil(cardPacksTotalCount / pageSize)
+
+    const onPageChanged = (pageNumber: number) => {
+        dispatch(getPacksTC(pageNumber, pageSize))
+    }
+
+    useEffect(() => {
+        dispatch(authMeTC())
+        dispatch(getPacksTC(currentPage, pageSize))
+    }, [])
+
     return (
-            <div style={{height: 400, width: '100%'}}>
-                <DataGrid rows={rows} columns={columns} pageSize={5} />
-            </div>
-    );
+        <TableContainer component={Paper}>
+            <Table>
+                <TableHead>
+                    <TableRow >
+                        {columns.map(column => {
+                            return (
+                                <TableCell key={column.id} component='th' style={{ fontWeight: 'bold' }}>{column.name}</TableCell >
+                            )
+                        })}
+                        <TableCell colSpan={2}>
+                            <Button color="primary" variant={'contained'} onClick={() => alert("add")}>
+                                Add pack
+                        </Button>
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {packs.map(pack => {
+                        return (
+                            <TableRow key={pack._id}>
+                                <TableCell>{pack.name}</TableCell>
+                                <TableCell>{pack.cardsCount}</TableCell>
+                                <TableCell>{pack.grade}</TableCell>
+                                <TableCell>{pack.updated}</TableCell>
+                                <TableCell>
+                                    <IconButton onClick={() => alert("edit")}>
+                                        <Edit color="primary" />
+                                    </IconButton></TableCell>
+                                <TableCell>
+                                    <IconButton onClick={() => alert("delete")}>
+                                        <Delete color="secondary" />
+                                    </IconButton>
+                                </TableCell>
+                            </TableRow>
+                        )
+                    })}
+                </TableBody>
+            </Table>
+            {/* <Pagination totalCount={pagesAmount} onPageChanged={onPageChanged} /> */}
+            <Pagination totalCount={pagesAmount} onPageChanged={onPageChanged} />
+        </TableContainer>
+    )
 }

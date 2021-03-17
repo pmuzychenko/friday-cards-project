@@ -11,13 +11,13 @@ import { authMeTC } from "../../../reducers/login-reducer";
 export const Profile = () => {
     const dispatch = useDispatch()
     const userProfileData = useSelector<AppRootStateType, ResponseUserDataType | null>(state => state.login.data)
-    const isUserLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
     
-    useEffect(() => {
-        !userProfileData && dispatch(authMeTC())
-    }, [])
+    // useEffect(() => {
+    //     !userProfileData && dispatch(authMeTC())
+    // }, [])
 
-    if (!isUserLoggedIn) {
+    if (!isLoggedIn) {
         return <Redirect to={'/login'} />
     }
 
