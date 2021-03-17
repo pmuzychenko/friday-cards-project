@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 import { AppRootStateType } from '../../../reducers/store';
-import { ColumnType, getPacksTC, PackType } from '../../../reducers/packs-reducer';
+import { addPackTC, ColumnType, getPacksTC, PackType } from '../../../reducers/packs-reducer';
 import Pagination from '../../common/Pagination/Pagination';
 
 import TableRow from '@material-ui/core/TableRow';
@@ -35,6 +35,11 @@ export function Packs() {
         dispatch(getPacksTC(pageNumber, pageSize))
     }
 
+    const addPack = (e: any, name: string = 'FRIDAY-PROJECT-PACK') => {
+        dispatch(addPackTC(name))
+        dispatch(getPacksTC(currentPage, pageSize))
+    }
+
     useEffect(() => {
         dispatch(getPacksTC(currentPage, pageSize))
     }, [])
@@ -59,7 +64,7 @@ export function Packs() {
                             )
                         })}
                         <TableCell colSpan={2}>
-                            <Button color="primary" variant={'contained'} onClick={() => alert("add")}>
+                            <Button color="primary" variant={'contained'} onClick={addPack}>
                                 Add pack
                         </Button>
                         </TableCell>

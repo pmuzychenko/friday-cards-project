@@ -23,14 +23,14 @@ export const api = {
     logout() {
         return instance.delete('/auth/me', {})
     },
-    authMe(){
+    authMe() {
         return instance.post('/auth/me', {})
     },
     signUp(email: string, password: string) {
         return instance.post<ResponseSignUpType>(`auth/register`, { email, password })
     },
     forgotPassword(email: string) {
-        return instance.post<ResponseForgetPasswordType>(`auth/forgot`, {...RequestForgetPasswordObject, email})
+        return instance.post<ResponseForgetPasswordType>(`auth/forgot`, { ...RequestForgetPasswordObject, email })
     },
     recoverPassword(password: string, resetPasswordToken: string) {
         return instance.post<SetPasswordResponseType>(`auth/set-new-password`, {
@@ -41,9 +41,16 @@ export const api = {
 }
 
 export const apiPacks = {
-    getPacks(page: number = 1, pageCount: number = 8)  {
+    getPacks(page: number = 1, pageCount: number = 8) {
         return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}`)
-    }
+    },
+    addPack(name: string) {
+        return instance.post(`cards/pack`, {
+            cardsPack: {
+                name
+            }
+        })
+    },
 }
 
 //types
