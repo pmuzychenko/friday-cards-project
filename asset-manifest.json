@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/friday-cards-project/static/css/main.6730173c.chunk.css",
-    "main.js": "/friday-cards-project/static/js/main.43fc2c1e.chunk.js",
-    "main.js.map": "/friday-cards-project/static/js/main.43fc2c1e.chunk.js.map",
-    "runtime-main.js": "/friday-cards-project/static/js/runtime-main.49acaad5.js",
-    "runtime-main.js.map": "/friday-cards-project/static/js/runtime-main.49acaad5.js.map",
-    "static/js/2.55a816b0.chunk.js": "/friday-cards-project/static/js/2.55a816b0.chunk.js",
-    "static/js/2.55a816b0.chunk.js.map": "/friday-cards-project/static/js/2.55a816b0.chunk.js.map",
-    "static/js/3.d9fdfe83.chunk.js": "/friday-cards-project/static/js/3.d9fdfe83.chunk.js",
-    "static/js/3.d9fdfe83.chunk.js.map": "/friday-cards-project/static/js/3.d9fdfe83.chunk.js.map",
+    "main.js": "/friday-cards-project/static/js/main.2fa6d58c.chunk.js",
+    "main.js.map": "/friday-cards-project/static/js/main.2fa6d58c.chunk.js.map",
+    "runtime-main.js": "/friday-cards-project/static/js/runtime-main.cf9e9dd1.js",
+    "runtime-main.js.map": "/friday-cards-project/static/js/runtime-main.cf9e9dd1.js.map",
+    "static/js/2.65163849.chunk.js": "/friday-cards-project/static/js/2.65163849.chunk.js",
+    "static/js/2.65163849.chunk.js.map": "/friday-cards-project/static/js/2.65163849.chunk.js.map",
+    "static/js/3.8152c830.chunk.js": "/friday-cards-project/static/js/3.8152c830.chunk.js",
+    "static/js/3.8152c830.chunk.js.map": "/friday-cards-project/static/js/3.8152c830.chunk.js.map",
     "index.html": "/friday-cards-project/index.html",
     "static/css/main.6730173c.chunk.css.map": "/friday-cards-project/static/css/main.6730173c.chunk.css.map",
-    "static/js/2.55a816b0.chunk.js.LICENSE.txt": "/friday-cards-project/static/js/2.55a816b0.chunk.js.LICENSE.txt",
+    "static/js/2.65163849.chunk.js.LICENSE.txt": "/friday-cards-project/static/js/2.65163849.chunk.js.LICENSE.txt",
     "static/media/preloader.9ca08101.gif": "/friday-cards-project/static/media/preloader.9ca08101.gif"
   },
   "entrypoints": [
-    "static/js/runtime-main.49acaad5.js",
-    "static/js/2.55a816b0.chunk.js",
+    "static/js/runtime-main.cf9e9dd1.js",
+    "static/js/2.65163849.chunk.js",
     "static/css/main.6730173c.chunk.css",
-    "static/js/main.43fc2c1e.chunk.js"
+    "static/js/main.2fa6d58c.chunk.js"
   ]
 }
