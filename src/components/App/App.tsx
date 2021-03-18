@@ -8,15 +8,17 @@ import { ErrorSnackbar } from '../ErrorSnackbar/ErrorSnackbar';
 import { AppRootStateType } from '../../reducers/store';
 import { Preloader } from '../Preloader/Preloader';
 import { authMeTC } from '../../reducers/login-reducer';
+import { ResponseUserDataType } from '../../api/api';
 
 
 export const App = () => {
   const dispatch = useDispatch()
+  const userProfileData = useSelector<AppRootStateType, ResponseUserDataType | null>(state => state.login.data)
   const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
 
   useEffect(() => {
-    dispatch(authMeTC())
-}, [dispatch])
+    !userProfileData && dispatch(authMeTC())
+  }, [dispatch, userProfileData])
 
 
   if (!isInitialized) {

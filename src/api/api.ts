@@ -3,8 +3,8 @@ import { LoginFormData } from "../reducers/login-reducer";
 
 
 const instance = axios.create({
-    baseURL: `https://neko-back.herokuapp.com/2.0`,
-    // baseURL: `http://localhost:7542/2.0/`,
+    // baseURL: `https://neko-back.herokuapp.com/2.0`,
+    baseURL: `http://localhost:7542/2.0/`,
     withCredentials: true
 })
 
@@ -18,13 +18,13 @@ const RequestForgetPasswordObject: RequestForgetPasswordType = {
 //api
 export const api = {
     login(data: LoginFormData) {
-        return instance.post<ResponseUserDataType>('/auth/login', data)
+        return instance.post('auth/login', data)
     },
     logout() {
-        return instance.delete('/auth/me', {})
+        return instance.delete('auth/me', {})
     },
     authMe() {
-        return instance.post('/auth/me', {})
+        return instance.post('auth/me', {})
     },
     signUp(email: string, password: string) {
         return instance.post<ResponseSignUpType>(`auth/register`, { email, password })
@@ -44,12 +44,13 @@ export const apiPacks = {
     getPacks(page: number = 1, pageCount: number = 8) {
         return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}`)
     },
-    addPack(name: string) {
+    addPack(name: string, privateProperty: boolean = true) {
         return instance.post(`cards/pack`, {
-            cardsPack: {
-                name
-            }
+            cardsPack: { name, private: privateProperty }
         })
+    },
+    deletePack(id: string) {
+        return instance.delete(`cards/pack?id=${id}`)
     },
 }
 

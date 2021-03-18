@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-
 import { AppRootStateType } from '../../../reducers/store';
 import { addPackTC, ColumnType, getPacksTC, PackType } from '../../../reducers/packs-reducer';
 import Pagination from '../../common/Pagination/Pagination';
@@ -18,11 +17,12 @@ import Paper from '@material-ui/core/Paper';
 import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
 import { Redirect } from 'react-router-dom';
-import { Preloader } from '../../Preloader/Preloader';
+import { authMeTC } from '../../../reducers/login-reducer';
+import { ResponseUserDataType } from '../../../api/api';
+
 
 export function Packs() {
     const dispatch = useDispatch()
-    const status = useSelector<AppRootStateType, string>(state => state.app.status)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
     const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.packs)
     const columns = useSelector<AppRootStateType, Array<ColumnType>>(state => state.packs.columns)
@@ -37,17 +37,20 @@ export function Packs() {
 
     const addPack = (e: any, name: string = 'PROJECT-PACK') => {
         dispatch(addPackTC(name))
-        dispatch(getPacksTC(currentPage, pageSize))
     }
+
+    // const deletePack = (e: any) => {
+    //     dispatch(deletePackTC())
+    // }
 
     useEffect(() => {
         dispatch(getPacksTC(currentPage, pageSize))
-    }, [])
+    }, [dispatch, currentPage, pageSize])
 
     if (!isLoggedIn) {
         return <Redirect to={'/login'} />
     }
-    
+
     // работает, но затирает стиль текущей страницы
     // if (status === 'loading') {
     //     return <Preloader />

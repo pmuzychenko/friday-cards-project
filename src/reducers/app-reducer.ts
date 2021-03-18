@@ -40,7 +40,9 @@ export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-ST
 export const setAppErrorAC = (error: ResponseErrorType) => ({type: 'APP/SET-ERROR', error} as const)
 export const setAppInitializedAC = (isInitialized: boolean) => ({type: 'APP/SET-IS-INITIALIZED', isInitialized} as const)
 
-type ActionsType = setAppStatusActionType | setAppErrorActionType | setAppInitializedType
+// types
 export type setAppStatusActionType = ReturnType<typeof setAppStatusAC>
 export type setAppErrorActionType = ReturnType<typeof setAppErrorAC>
 export type setAppInitializedType = ReturnType<typeof setAppInitializedAC>
+
+type ActionsType = setAppStatusActionType | setAppErrorActionType | setAppInitializedType

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Redirect } from "react-router-dom";
 import { useFormik } from "formik";
@@ -8,6 +8,7 @@ import styles from './Login.module.css'
 import { AppRootStateType } from "../../../reducers/store";
 import { loginTC } from "../../../reducers/login-reducer";
 import { PATH } from "../../Routes/Routes";
+import { Preloader } from "../../Preloader/Preloader";
 
 
 type FormikErrorType = {
@@ -19,7 +20,8 @@ type FormikErrorType = {
 export const Login = () => {
     const dispatch = useDispatch()
     const isUserLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-
+    const status = useSelector<AppRootStateType, string>(state => state.app.status)
+    
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -42,10 +44,15 @@ export const Login = () => {
             return errors;
         },
         onSubmit: values => {
+            debugger
             dispatch(loginTC(values))
             formik.resetForm()
         },
     })
+
+    if (status === 'loading') {
+        return <Preloader />
+    }
 
     if (isUserLoggedIn) {
         return <Redirect to={'/profile'} />

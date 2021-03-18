@@ -1,6 +1,8 @@
 import { Dispatch } from "redux"
+import { ThunkAction } from "redux-thunk"
 import { apiPacks } from "../api/api"
-import { setAppErrorAC, setAppStatusAC } from "./app-reducer"
+import { setAppErrorAC, setAppErrorActionType, setAppStatusAC, setAppStatusActionType } from "./app-reducer"
+import { AppRootStateType } from "./store"
 
 
 const initialState = {
@@ -70,17 +72,34 @@ export const getPacksTC = (page: number, pageCount: number) => (dispatch: Dispat
         })
 }
 
-export const addPackTC = (name: string) => (dispatch: Dispatch) => {
+export const addPackTC = (name: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> => (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
+    const { page, pageCount } = getState().packs
     apiPacks.addPack(name)
         .then(res => {
             dispatch(setAppStatusAC('succeeded'))
+            dispatch(getPacksTC(page, pageCount))
         })
         .catch(error => {
             dispatch(setAppStatusAC('failed'))
             dispatch(setAppErrorAC('Error: ' + error.response.data.error))
         })
 }
+
+// export const deletePackTC = (): ThunkAction<void, AppRootStateType, unknown, ActionsType> => (dispatch, getState) => {
+//     dispatch(setAppStatusAC('loading'))
+//     const id = getState().packs.packs
+//         apiPacks.deletePack(id)
+//             .then(res => {
+//                 const { page, pageCount } = getState().packs
+//                 dispatch(setAppStatusAC('succeeded'))
+//                 dispatch(getPacksTC(page, pageCount))
+//             })
+//             .catch(error => {
+//                 dispatch(setAppStatusAC('failed'))
+//                 dispatch(setAppErrorAC('Error: ' + error.response.data.error))
+//             })
+// }
 
 // actions
 export const setPacksAC = (packs: Array<PackType>) => ({ type: 'SET-PACKS', packs } as const)
@@ -91,3 +110,5 @@ export const setCardPacksTotalCountAC = (cardPacksTotalCount: number) => ({ type
 type ActionsType = ReturnType<typeof setPacksAC>
     | ReturnType<typeof setCurrentPageAC>
     | ReturnType<typeof setCardPacksTotalCountAC>
+    | setAppStatusActionType
+    | setAppErrorActionType
