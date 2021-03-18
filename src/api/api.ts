@@ -42,7 +42,7 @@ export const api = {
 
 export const apiPacks = {
     getPacks(page: number = 1, pageCount: number = 8) {
-        return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}`)
+        return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&user_id=604b5ecc479fbc000443b3e1`)
     },
     addPack(name: string, privateProperty: boolean = true) {
         return instance.post(`cards/pack`, {
@@ -52,6 +52,17 @@ export const apiPacks = {
     deletePack(id: string) {
         return instance.delete(`cards/pack?id=${id}`)
     },
+    updatePack(packID: string) {
+        return instance.put(`cards/pack`, {
+            cardsPack: { _id: packID, name: 'NEW-PACK-NAME' }
+        })
+    },
+}
+
+export const apiCards = {
+    getCards(page: number = 1, pageCount: number = 8, packID: string) {
+        return instance.get(`cards/cards/cards?cardsPack_id=${packID}&page=${page}&pageCount=${pageCount}`)
+    }
 }
 
 //types

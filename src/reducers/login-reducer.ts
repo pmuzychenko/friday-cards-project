@@ -43,7 +43,6 @@ export const loginTC = (data: LoginFormData) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     api.login(data)
         .then((res) => {
-            debugger
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setIsLoggedInAC(true))
             dispatch(setUserDataAC(res.data))
@@ -61,13 +60,11 @@ export const authMeTC = () => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     api.authMe()
         .then((res) => {
-            debugger
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setUserDataAC(res.data))
             dispatch(setIsLoggedInAC(true))
         })
         .catch((e) => {
-            debugger
             dispatch(setAppStatusAC('failed'))
             const error: string = e.response
                 ? e.response.data.error

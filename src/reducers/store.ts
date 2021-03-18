@@ -1,3 +1,4 @@
+import { cardsReducer } from './cards-reducer';
 import { applyMiddleware, combineReducers } from "redux";
 import { createStore } from "redux";
 import thunk from "redux-thunk";
@@ -17,7 +18,8 @@ const reducers = combineReducers({
     passwordRecovery: passwordRecoveryReducer,
     newPassword: setNewPasswordReducer,
     app: appReducer,
-    packs: packsReducer
+    packs: packsReducer,
+    cards: cardsReducer
 });
 
 export const store = createStore(reducers, applyMiddleware(thunk));

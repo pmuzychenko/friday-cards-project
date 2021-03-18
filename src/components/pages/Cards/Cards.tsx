@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppRootStateType } from '../../../reducers/store';
-import { addPackTC, ColumnType, deletePackTC, getPacksTC, PackType, updatePackTC } from '../../../reducers/packs-reducer';
-import Pagination from '../../common/Pagination/Pagination';
-import { Pack } from './Pack/Pack';
+import { ColumnType } from '../../../reducers/packs-reducer';
 
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
@@ -16,37 +13,38 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
+import { CardsStateType } from '../../../reducers/cards-reducer';
 
 
-export function Packs() {
+export function Cards() {
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-    const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.packs)
-    const columns = useSelector<AppRootStateType, Array<ColumnType>>(state => state.packs.columns)
-    const cardPacksTotalCount = useSelector<AppRootStateType, number>(state => state.packs.cardPacksTotalCount)
-    const pageSize = useSelector<AppRootStateType, number>(state => state.packs.pageCount)
-    const currentPage = useSelector<AppRootStateType, number>(state => state.packs.page)
-    const pagesAmount = Math.ceil(cardPacksTotalCount / pageSize)
+    const cards = useSelector<AppRootStateType, CardsStateType>(state => state.cards.cards)
+    const columns = useSelector<AppRootStateType, Array<ColumnType>>(state => state.cards.columns)
+    const cardsTotalCount = useSelector<AppRootStateType, number>(state => state.cards.cardsTotalCount)
+    const pageSize = useSelector<AppRootStateType, number>(state => state.cards.pageCount)
+    const currentPage = useSelector<AppRootStateType, number>(state => state.cards.page)
+    const pagesAmount = Math.ceil(cardsTotalCount / pageSize)
 
-    const addPack = (e: any, name: string = 'PROJECT-PACK') => {
-        dispatch(addPackTC(name))
-    }
+    // const addPack = (e: any, name: string = 'PROJECT-PACK') => {
+    //     dispatch(addPackTC(name))
+    // }
 
-    const deletePack = (packID: string) => {
-        dispatch(deletePackTC(packID))
-    }
+    // const deletePack = (packID: string) => {
+    //     dispatch(deletePackTC(packID))
+    // }
 
-    const updatePack = (packID: string) => {
-        dispatch(updatePackTC(packID))
-    }
+    // const updatePack = (packID: string) => {
+    //     dispatch(updatePackTC(packID))
+    // }
 
-    const onPageChanged = (pageNumber: number) => {
-        dispatch(getPacksTC(pageNumber, pageSize))
-    }
+    // const onPageChanged = (pageNumber: number) => {
+    //     dispatch(getPacksTC(pageNumber, pageSize))
+    // }
 
-    useEffect(() => {
-        dispatch(getPacksTC(currentPage, pageSize))
-    }, [])
+    // useEffect(() => {
+    //     dispatch(getPacksTC(currentPage, pageSize))
+    // }, [])
 
     if (!isLoggedIn) {
         return <Redirect to={'/login'} />
@@ -72,14 +70,14 @@ export function Packs() {
                             )
                         })}
                         <TableCell colSpan={2}>
-                            <Button color="primary" variant={'contained'} onClick={addPack}>
-                                Add pack
+                            <Button color="primary" variant={'contained'} onClick={() => alert('add card')}>
+                                Add card
                             </Button>
                         </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {packs.map(pack => <Pack
+                    {/* { packs.map(pack => <Pack
                         key={pack._id}
                         id={pack._id}
                         name={pack.name}
@@ -88,10 +86,10 @@ export function Packs() {
                         updated={pack.updated}
                         deletePack={deletePack}
                         updatePack={updatePack} />
-                    )}
+                    )} */}
                 </TableBody>
             </Table>
-            <Pagination totalCount={pagesAmount} onPageChanged={onPageChanged} />
+            {/* <Pagination totalCount={pagesAmount} onPageChanged={onPageChanged} /> */}
         </TableContainer>
     )
 }
