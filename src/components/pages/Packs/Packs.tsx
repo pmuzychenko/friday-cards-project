@@ -28,8 +28,8 @@ export function Packs() {
     const currentPage = useSelector<AppRootStateType, number>(state => state.packs.page)
     const pagesAmount = Math.ceil(cardPacksTotalCount / pageSize)
 
-    const addPack = (e: any, name: string = 'PROJECT-PACK') => {
-        dispatch(addPackTC(name))
+    const addPack = () => {
+        dispatch(addPackTC())
     }
 
     const deletePack = (packID: string) => {

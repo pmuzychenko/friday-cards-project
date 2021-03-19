@@ -5,7 +5,6 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import IconButton from '@material-ui/core/IconButton';
 import { Delete, Edit } from '@material-ui/icons';
-import { Button } from '@material-ui/core';
 
 
 type PackPropsType = {
@@ -44,7 +43,7 @@ export function Pack(props: PackPropsType) {
             </TableCell>
             <TableCell>
                 <IconButton onClick={deletePack}>
-                    <Delete color="secondary" />
+                    <Delete color="primary" />
                 </IconButton>
             </TableCell>
             <TableCell>

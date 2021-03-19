@@ -73,11 +73,11 @@ export const getPacksTC = (page: number, pageCount: number) =>
             })
     }
 
-export const addPackTC = (name: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+export const addPackTC = (): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
     (dispatch, getState) => {
         dispatch(setAppStatusAC('loading'))
         const { page, pageCount } = getState().packs
-        apiPacks.addPack(name)
+        apiPacks.addPack()
             .then(res => {
                 dispatch(setAppStatusAC('succeeded'))
                 dispatch(getPacksTC(page, pageCount))

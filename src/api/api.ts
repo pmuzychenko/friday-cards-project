@@ -3,8 +3,8 @@ import { LoginFormData } from "../reducers/login-reducer";
 
 
 const instance = axios.create({
-    // baseURL: `https://neko-back.herokuapp.com/2.0`,
-    baseURL: `http://localhost:7542/2.0/`,
+    baseURL: `https://neko-back.herokuapp.com/2.0`,
+    // baseURL: `http://localhost:7542/2.0/`,
     withCredentials: true
 })
 
@@ -44,9 +44,9 @@ export const apiPacks = {
     getPacks(page: number = 1, pageCount: number = 8) {
         return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&user_id=604b5ecc479fbc000443b3e1`)
     },
-    addPack(name: string, privateProperty: boolean = true) {
+    addPack() {
         return instance.post(`cards/pack`, {
-            cardsPack: { name, private: privateProperty }
+            cardsPack: { name: 'PROJECT-CARD', private: true }
         })
     },
     deletePack(id: string) {
@@ -61,8 +61,21 @@ export const apiPacks = {
 
 export const apiCards = {
     getCards(page: number = 1, pageCount: number = 8, packID: string) {
-        return instance.get(`cards/cards/cards?cardsPack_id=${packID}&page=${page}&pageCount=${pageCount}`)
-    }
+        return instance.get(`cards/card?cardsPack_id=${packID}&page=${page}&pageCount=${pageCount}`)
+    },
+    addCard(packID: string) {
+        return instance.post(`cards/card`, {
+            card: { cardsPack_id: packID, question: 'CARD-QUESTION', answer: 'CARD-ANSWER' }
+        })
+    },
+    deleteCard(cardID: string) {
+        return instance.delete(`cards/card?id=${cardID}`)
+    },
+    updateCard(cardID: string) {
+        return instance.put(`cards/card`, {
+            card: { _id: cardID, question: 'NEW-CARD-QUESTION', answer: 'NEW-CARD-ANSWER' }
+        })
+    },
 }
 
 //types
