@@ -43,7 +43,7 @@ type InitialStateType = {
 export const packsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'SET-PACKS': {
-            return { ...state, packs: action.packs }
+            return { ...state, packs: action.packs.map(pack => ({...pack})) }
         }
         case 'SET-PACKS-TOTAL-COUNT': {
             return { ...state, cardPacksTotalCount: action.cardPacksTotalCount }

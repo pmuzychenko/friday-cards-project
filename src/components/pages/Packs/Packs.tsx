@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppRootStateType } from '../../../reducers/store';
-import { addPackTC, ColumnType, deletePackTC, getPacksTC, PackType, updatePackTC } from '../../../reducers/packs-reducer';
+import { addPackTC, ColumnType, deletePackTC, getPacksTC, PackType, setPacksAC, updatePackTC } from '../../../reducers/packs-reducer';
 import Pagination from '../../common/Pagination/Pagination';
 import { Pack } from './Pack/Pack';
 
@@ -16,6 +16,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
+import { TableSortLabel } from '@material-ui/core';
 
 
 export function Packs() {
@@ -38,6 +39,26 @@ export function Packs() {
 
     const updatePack = (packID: string) => {
         dispatch(updatePackTC(packID))
+    }
+
+    const sortUpByName = () => {
+        let sortPacks = packs.sort((a, b) => a.name > b.name ? 1 : -1)
+        dispatch(setPacksAC(sortPacks))
+    }
+
+    const sortDownByName = () => {
+        let sortPacks = packs.sort((a, b) => a.name < b.name ? 1 : -1)
+        dispatch(setPacksAC(sortPacks))
+    }
+
+    const sortUpByAmount = () => {
+        let sortPacks = packs.sort((a, b) => b.cardsCount - a.cardsCount)
+        dispatch(setPacksAC(sortPacks))
+    }
+
+    const sortDownByAmount = () => {
+        let sortPacks = packs.sort((a, b) => a.cardsCount - b.cardsCount)
+        dispatch(setPacksAC(sortPacks))
     }
 
     const onPageChanged = (pageNumber: number) => {
@@ -68,7 +89,35 @@ export function Packs() {
                                     key={column.id}
                                     component='th'
                                     style={{ fontWeight: 'bold' }}
-                                >{column.name}</TableCell >
+                                >{column.name}
+                                    {column.name === 'Name' &&
+                                        <div>
+                                            <TableSortLabel
+                                                active={true}
+                                                direction={'asc'}
+                                                onClick={sortUpByName}
+                                            />
+                                            <TableSortLabel
+                                                active={true}
+                                                direction={'desc'}
+                                                onClick={sortDownByName}
+                                            />
+                                        </div>
+                                    }
+                                    {column.name === 'Amount of cards' &&
+                                        <div>
+                                            <TableSortLabel
+                                                active={true}
+                                                direction={'asc'}
+                                                onClick={sortUpByAmount}
+                                            />
+                                            <TableSortLabel
+                                                active={true}
+                                                direction={'desc'}
+                                                onClick={sortDownByAmount}
+                                            />
+                                        </div>}
+                                </TableCell>
                             )
                         })}
                         <TableCell colSpan={2}>

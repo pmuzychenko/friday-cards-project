@@ -96,7 +96,7 @@ export const Login = () => {
                 </FormControl>
             </form>
             <div className={styles.forgetPasswordContainer}>
-                <NavLink to={PATH.passwordRecovery}>{'Forget password'}</NavLink>
+                <NavLink to={PATH.passwordRecovery}>{'Forgot password'}</NavLink>
             </div>
         </div>
     );
