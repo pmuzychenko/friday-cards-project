@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 
 import { api, ResponseUserDataType } from "../api/api";
-import { setAppErrorAC, setAppStatusAC } from "./app-reducer";
+import { setAppErrorAC, setAppInitializedAC, setAppStatusAC } from "./app-reducer";
 
 export type LoginFormData = {
     email: string
@@ -16,7 +16,7 @@ type UserAuthData = {
 
 const initialState: UserAuthData = {
     data: null,
-    isLoggedIn: false,
+    isLoggedIn: false
 }
 
 export const loginReducer = (state: UserAuthData = initialState, action: ActionsType): UserAuthData => {
@@ -71,6 +71,9 @@ export const authMeTC = () => (dispatch: Dispatch) => {
                 : (e.message + ', more details in the console')
             dispatch(setAppErrorAC('Error: ' + error))
         })
+        .finally(() => {
+            dispatch(setAppInitializedAC(true));
+        })
 }
 
 export const logoutTC = () => (dispatch: Dispatch) => {
@@ -91,6 +94,4 @@ export const logoutTC = () => (dispatch: Dispatch) => {
 }
 
 // types
-type ActionsType = ReturnType<typeof setIsLoggedInAC>
-    | ReturnType<typeof setUserDataAC>
-    | ReturnType<typeof setAppErrorAC>
+type ActionsType = ReturnType<typeof setIsLoggedInAC> | ReturnType<typeof setUserDataAC> | ReturnType<typeof setAppErrorAC>

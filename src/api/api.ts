@@ -18,19 +18,19 @@ const RequestForgetPasswordObject: RequestForgetPasswordType = {
 //api
 export const api = {
     login(data: LoginFormData) {
-        return instance.post<ResponseUserDataType>('/auth/login', data)
+        return instance.post('auth/login', data)
     },
     logout() {
-        return instance.delete('/auth/me', {})
+        return instance.delete('auth/me', {})
     },
-    authMe(){
-        return instance.post('/auth/me', {})
+    authMe() {
+        return instance.post('auth/me', {})
     },
     signUp(email: string, password: string) {
         return instance.post<ResponseSignUpType>(`auth/register`, { email, password })
     },
     forgotPassword(email: string) {
-        return instance.post<ResponseForgetPasswordType>(`auth/forgot`, {...RequestForgetPasswordObject, email})
+        return instance.post<ResponseForgetPasswordType>(`auth/forgot`, { ...RequestForgetPasswordObject, email })
     },
     recoverPassword(password: string, resetPasswordToken: string) {
         return instance.post<SetPasswordResponseType>(`auth/set-new-password`, {
@@ -38,6 +38,44 @@ export const api = {
             resetPasswordToken
         })
     }
+}
+
+export const apiPacks = {
+    getPacks(page: number = 1, pageCount: number = 8) {
+        return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&user_id=604b5ecc479fbc000443b3e1`)
+    },
+    addPack() {
+        return instance.post(`cards/pack`, {
+            cardsPack: { name: 'PROJECT-CARD', private: true }
+        })
+    },
+    deletePack(id: string) {
+        return instance.delete(`cards/pack?id=${id}`)
+    },
+    updatePack(packID: string) {
+        return instance.put(`cards/pack`, {
+            cardsPack: { _id: packID, name: 'NEW-PACK-NAME' }
+        })
+    },
+}
+
+export const apiCards = {
+    getCards(page: number = 1, pageCount: number = 8, packID: string) {
+        return instance.get(`cards/card?cardsPack_id=${packID}&page=${page}&pageCount=${pageCount}`)
+    },
+    addCard(packID: string) {
+        return instance.post(`cards/card`, {
+            card: { cardsPack_id: packID, question: 'CARD-QUESTION', answer: 'CARD-ANSWER' }
+        })
+    },
+    deleteCard(cardID: string) {
+        return instance.delete(`cards/card?id=${cardID}`)
+    },
+    updateCard(cardID: string) {
+        return instance.put(`cards/card`, {
+            card: { _id: cardID, question: 'NEW-CARD-QUESTION', answer: 'NEW-CARD-ANSWER' }
+        })
+    },
 }
 
 //types
