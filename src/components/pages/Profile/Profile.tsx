@@ -20,7 +20,9 @@ export const Profile = () => {
             {userProfileData && <div className={styles.containerProfile}>
                 <span>User name: {userProfileData.name}</span>
                 <span>User email: {userProfileData.email}</span>
-                <img src={userProfileData.avatar} alt="avatar"/>
+                <div className={styles.avatarContainer}>
+                    <img src={userProfileData.avatar} alt="avatar"/>
+                </div>
             </div>}
         </div>
     );
