@@ -1,12 +1,20 @@
 import * as React from 'react';
-import { useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import {ChangeEvent, useEffect, useState} from 'react';
+import {Redirect} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 
-import { AppRootStateType } from '../../../reducers/store';
-import { addPackTC, ColumnType, deletePackTC, getPacksTC, PackType, setPacksAC, updatePackTC } from '../../../reducers/packs-reducer';
+import {AppRootStateType} from '../../../reducers/store';
+import {
+    addPackTC,
+    ColumnType,
+    deletePackTC,
+    getPacksTC,
+    PackType,
+    setPacksAC,
+    updatePackTC
+} from '../../../reducers/packs-reducer';
 import Pagination from '../../common/Pagination/Pagination';
-import { Pack } from './Pack/Pack';
+import {Pack} from './Pack/Pack';
 
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
@@ -16,7 +24,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
-import { TableSortLabel } from '@material-ui/core';
+import {TableSortLabel} from '@material-ui/core';
+import styles from './Packs.module.css'
 
 
 export function Packs() {
@@ -29,16 +38,41 @@ export function Packs() {
     const currentPage = useSelector<AppRootStateType, number>(state => state.packs.page)
     const pagesAmount = Math.ceil(cardPacksTotalCount / pageSize)
 
+    const userId = useSelector<AppRootStateType, string | undefined>(state => state.login.data?._id)
+
+    const [myPacksShowValue, setMyPacksShowValue] = useState<boolean>(false)
+
     const addPack = () => {
-        dispatch(addPackTC())
+        if(myPacksShowValue) {
+            userId && dispatch(addPackTC(userId))
+        } else {
+            dispatch(addPackTC())
+        }
+    }
+
+    const showMyPacks = (e: ChangeEvent<HTMLInputElement>) => {
+        setMyPacksShowValue(e.currentTarget.checked)
+        if(!myPacksShowValue) {
+            userId && dispatch(getPacksTC(currentPage, pageSize, userId))
+        } else {
+            dispatch(getPacksTC(currentPage, pageSize))
+        }
     }
 
     const deletePack = (packID: string) => {
-        dispatch(deletePackTC(packID))
+        if(myPacksShowValue) {
+            userId && dispatch(deletePackTC(packID, userId))
+        } else {
+            dispatch(deletePackTC(packID))
+        }
     }
 
     const updatePack = (packID: string) => {
-        dispatch(updatePackTC(packID))
+        if(myPacksShowValue) {
+            userId && dispatch(updatePackTC(packID, userId))
+        } else {
+            dispatch(updatePackTC(packID))
+        }
     }
 
     const sortUpByName = () => {
@@ -66,11 +100,15 @@ export function Packs() {
     }
 
     useEffect(() => {
-        dispatch(getPacksTC(currentPage, pageSize))
+        if(myPacksShowValue) {
+            userId && dispatch(getPacksTC(currentPage, pageSize, userId))
+        } else {
+            dispatch(getPacksTC(currentPage, pageSize))
+        }
     }, [])
 
     if (!isLoggedIn) {
-        return <Redirect to={'/login'} />
+        return <Redirect to={'/login'}/>
     }
 
     // работает, но затирает стиль текущей страницы
@@ -79,18 +117,22 @@ export function Packs() {
     // }
 
     return (
-        <TableContainer component={Paper}>
-            <Table>
-                <TableHead>
-                    <TableRow >
-                        {columns.map(column => {
-                            return (
-                                <TableCell
-                                    key={column.id}
-                                    component='th'
-                                    style={{ fontWeight: 'bold' }}
-                                >{column.name}
-                                    {column.name === 'Name' &&
+        <div>
+            <h1 className={styles.packsHeader}>Cards Pack</h1>
+            <input type='checkbox' checked={myPacksShowValue} onChange={showMyPacks}/><span
+            className={styles.showMyPacks}>Show My Packs</span>
+            <TableContainer component={Paper} className={styles.packsTable}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            {columns.map(column => {
+                                return (
+                                    <TableCell
+                                        key={column.id}
+                                        component='th'
+                                        style={{fontWeight: 'bold'}}
+                                    >{column.name}
+                                        {column.name === 'Name' &&
                                         <div style={{display: 'inline-block'}}>
                                             <TableSortLabel
                                                 active={true}
@@ -103,8 +145,8 @@ export function Packs() {
                                                 onClick={sortDownByName}
                                             />
                                         </div>
-                                    }
-                                    {column.name === 'Amount of cards' &&
+                                        }
+                                        {column.name === 'Amount of cards' &&
                                         <div style={{display: 'inline-block'}}>
                                             <TableSortLabel
                                                 active={true}
@@ -117,30 +159,31 @@ export function Packs() {
                                                 onClick={sortDownByAmount}
                                             />
                                         </div>}
-                                </TableCell>
-                            )
-                        })}
-                        <TableCell colSpan={2}>
-                            <Button color="primary" variant={'contained'} onClick={addPack}>
-                                Add pack
-                            </Button>
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {packs.map(pack => <Pack
-                        key={pack._id}
-                        id={pack._id}
-                        name={pack.name}
-                        cardsCount={pack.cardsCount}
-                        grade={pack.grade}
-                        updated={pack.updated}
-                        deletePack={deletePack}
-                        updatePack={updatePack} />
-                    )}
-                </TableBody>
-            </Table>
-            <Pagination totalCount={pagesAmount} onPageChanged={onPageChanged} />
-        </TableContainer>
+                                    </TableCell>
+                                )
+                            })}
+                            <TableCell colSpan={2}>
+                                <Button color="primary" variant={'contained'} onClick={addPack}>
+                                    Add pack
+                                </Button>
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {packs.map(pack => <Pack
+                            key={pack._id}
+                            id={pack._id}
+                            name={pack.name}
+                            cardsCount={pack.cardsCount}
+                            grade={pack.grade}
+                            updated={pack.updated}
+                            deletePack={deletePack}
+                            updatePack={updatePack}/>
+                        )}
+                    </TableBody>
+                </Table>
+                <Pagination totalCount={pagesAmount} onPageChanged={onPageChanged}/>
+            </TableContainer>
+        </div>
     )
 }
