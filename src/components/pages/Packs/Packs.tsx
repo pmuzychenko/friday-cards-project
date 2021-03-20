@@ -91,7 +91,7 @@ export function Packs() {
                                     style={{ fontWeight: 'bold' }}
                                 >{column.name}
                                     {column.name === 'Name' &&
-                                        <div>
+                                        <div style={{display: 'inline-block'}}>
                                             <TableSortLabel
                                                 active={true}
                                                 direction={'asc'}
@@ -105,7 +105,7 @@ export function Packs() {
                                         </div>
                                     }
                                     {column.name === 'Amount of cards' &&
-                                        <div>
+                                        <div style={{display: 'inline-block'}}>
                                             <TableSortLabel
                                                 active={true}
                                                 direction={'asc'}
