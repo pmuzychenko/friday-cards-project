@@ -41,9 +41,12 @@ export const api = {
 }
 
 export const apiPacks = {
-    getPacks(page: number = 1, pageCount: number = 8) {
-        // return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&user_id=604b5ecc479fbc000443b3e1`)
-        return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}`)
+    getPacks(page: number = 1, pageCount: number = 8, userId?:string) {
+        if (userId) {
+            return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&user_id=${userId}`)
+        } else {
+            return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}`)
+        }
     },
     addPack() {
         return instance.post(`cards/pack`, {
