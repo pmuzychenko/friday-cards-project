@@ -1,10 +1,10 @@
-import preloader from '../../assets/images/preloader.gif'
 import style from './Preloader.module.css'
+import {CircularProgress} from "@material-ui/core";
 
 export const Preloader = () => {
     return (
         <div className={style.loader}>
-            <img src={preloader} alt="preloader"/>
+          <CircularProgress/>
         </div>
     )
 }

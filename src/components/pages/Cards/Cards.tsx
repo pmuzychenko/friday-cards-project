@@ -95,6 +95,7 @@ export function Cards() {
                             <Card
                                 key={card._id}
                                 cardID={card._id}
+                                user_id={card.user_id}
                                 question={card.question}
                                 answer={card.answer}
                                 grade={card.grade}

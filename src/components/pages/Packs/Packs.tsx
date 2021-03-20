@@ -10,7 +10,6 @@ import {
     deletePackTC,
     getPacksTC,
     PackType,
-    setPacksAC,
     updatePackTC
 } from '../../../reducers/packs-reducer';
 import Pagination from '../../common/Pagination/Pagination';
@@ -42,8 +41,10 @@ export function Packs() {
 
     const [myPacksShowValue, setMyPacksShowValue] = useState<boolean>(false)
 
+    const [sortProperty, setSortProperty] = useState<string>('')
+
     const addPack = () => {
-        if(myPacksShowValue) {
+        if (myPacksShowValue) {
             userId && dispatch(addPackTC(userId))
         } else {
             dispatch(addPackTC())
@@ -52,7 +53,7 @@ export function Packs() {
 
     const showMyPacks = (e: ChangeEvent<HTMLInputElement>) => {
         setMyPacksShowValue(e.currentTarget.checked)
-        if(!myPacksShowValue) {
+        if (!myPacksShowValue) {
             userId && dispatch(getPacksTC(currentPage, pageSize, userId))
         } else {
             dispatch(getPacksTC(currentPage, pageSize))
@@ -60,7 +61,7 @@ export function Packs() {
     }
 
     const deletePack = (packID: string) => {
-        if(myPacksShowValue) {
+        if (myPacksShowValue) {
             userId && dispatch(deletePackTC(packID, userId))
         } else {
             dispatch(deletePackTC(packID))
@@ -68,7 +69,7 @@ export function Packs() {
     }
 
     const updatePack = (packID: string) => {
-        if(myPacksShowValue) {
+        if (myPacksShowValue) {
             userId && dispatch(updatePackTC(packID, userId))
         } else {
             dispatch(updatePackTC(packID))
@@ -76,31 +77,52 @@ export function Packs() {
     }
 
     const sortUpByName = () => {
-        let sortPacks = packs.sort((a, b) => a.name > b.name ? 1 : -1)
-        dispatch(setPacksAC(sortPacks))
+
+        setSortProperty('1name')
+        if (myPacksShowValue) {
+            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, userId))
+        } else {
+            dispatch(getPacksTC(currentPage, pageSize, sortProperty))
+        }
     }
 
     const sortDownByName = () => {
-        let sortPacks = packs.sort((a, b) => a.name < b.name ? 1 : -1)
-        dispatch(setPacksAC(sortPacks))
+        setSortProperty('0name')
+        if (myPacksShowValue) {
+            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, userId))
+        } else {
+            dispatch(getPacksTC(currentPage, pageSize,sortProperty))
+        }
     }
 
     const sortUpByAmount = () => {
-        let sortPacks = packs.sort((a, b) => b.cardsCount - a.cardsCount)
-        dispatch(setPacksAC(sortPacks))
+        setSortProperty('1cardsCount')
+        if (myPacksShowValue) {
+            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, userId))
+        } else {
+            dispatch(getPacksTC(currentPage, pageSize,sortProperty))
+        }
     }
 
     const sortDownByAmount = () => {
-        let sortPacks = packs.sort((a, b) => a.cardsCount - b.cardsCount)
-        dispatch(setPacksAC(sortPacks))
+        setSortProperty('0cardsCount')
+        if (myPacksShowValue) {
+            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, userId))
+        } else {
+            dispatch(getPacksTC(currentPage, pageSize,sortProperty))
+        }
     }
 
     const onPageChanged = (pageNumber: number) => {
-        dispatch(getPacksTC(pageNumber, pageSize))
+        if (myPacksShowValue) {
+            userId && dispatch(getPacksTC(pageNumber, pageSize, sortProperty, userId))
+        } else {
+            dispatch(getPacksTC(pageNumber, pageSize, sortProperty))
+        }
     }
 
     useEffect(() => {
-        if(myPacksShowValue) {
+        if (myPacksShowValue) {
             userId && dispatch(getPacksTC(currentPage, pageSize, userId))
         } else {
             dispatch(getPacksTC(currentPage, pageSize))
@@ -173,12 +195,14 @@ export function Packs() {
                         {packs.map(pack => <Pack
                             key={pack._id}
                             id={pack._id}
+                            user_id={pack.user_id}
                             name={pack.name}
                             cardsCount={pack.cardsCount}
                             grade={pack.grade}
                             updated={pack.updated}
                             deletePack={deletePack}
-                            updatePack={updatePack}/>
+                            updatePack={updatePack}
+                            />
                         )}
                     </TableBody>
                 </Table>

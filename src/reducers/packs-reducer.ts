@@ -20,6 +20,7 @@ const initialState = {
 
 export type PackType = {
     _id: string
+    user_id: string
     name: string
     cardsCount: number
     grade: number
@@ -58,11 +59,11 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 
 // thunks
 
-export const getPacksTC = (page: number, pageCount: number, userId?: string) =>
+export const getPacksTC = (page: number, pageCount: number,sortProperty?: string, userId?: string) =>
     (dispatch: Dispatch) => {
         dispatch(setAppStatusAC('loading'))
         dispatch(setCurrentPageAC(page))
-        apiPacks.getPacks(page, pageCount, userId)
+        apiPacks.getPacks(page,pageCount,sortProperty,userId)
             .then(res => {
                 dispatch(setAppStatusAC('succeeded'))
                 dispatch(setPacksAC(res.data.cardPacks))

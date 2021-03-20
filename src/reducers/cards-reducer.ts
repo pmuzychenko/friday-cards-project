@@ -20,6 +20,7 @@ const initialState = {
 
 export type CardType = {
     _id: string
+    user_id: string
     cardsPack_id: string
     answer: string
     question: string

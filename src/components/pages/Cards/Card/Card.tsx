@@ -4,9 +4,12 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { IconButton } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../../../../reducers/store";
 
 type CardPropsType = {
     cardID: string
+    user_id: string
     question: string
     answer: string
     grade: number
@@ -16,8 +19,9 @@ type CardPropsType = {
 }
 
 export function Card(props: CardPropsType) {
+    const userId = useSelector<AppRootStateType, string | undefined>(state => state.login.data?._id)
 
-    const { cardID, question, answer, grade, updated } = props
+    const { cardID, question, answer, grade, updated, user_id } = props
 
     const deleteCard = () => {
         props.deleteCard(cardID)
@@ -34,13 +38,13 @@ export function Card(props: CardPropsType) {
             <TableCell>{grade}</TableCell>
             <TableCell>{updated}</TableCell>
             <TableCell>
-                <IconButton onClick={updateCard}>
-                    <Edit color="secondary" />
+                <IconButton onClick={updateCard} disabled={userId !== user_id}>
+                    <Edit color={userId !== user_id ? "disabled" : "secondary" }/>
                 </IconButton>
             </TableCell>
             <TableCell>
-                <IconButton onClick={deleteCard}>
-                    <Delete color="secondary" />
+                <IconButton onClick={deleteCard} disabled={userId !== user_id}>
+                    <Delete color={userId !== user_id ? "disabled" : "secondary" }/>
                 </IconButton>
             </TableCell>
         </TableRow>
