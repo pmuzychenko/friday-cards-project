@@ -17,10 +17,10 @@ export const Profile = () => {
 
     return (
         <div className={styles.profile}>
-            {userProfileData && <div>
-                User name: {userProfileData.name} <br />
-                User email: {userProfileData.email} <br />
-                User avatar: {userProfileData.avatar} <br />
+            {userProfileData && <div className={styles.containerProfile}>
+                <span>User name: {userProfileData.name}</span>
+                <span>User email: {userProfileData.email}</span>
+                <img src={userProfileData.avatar} alt="avatar"/>
             </div>}
         </div>
     );
