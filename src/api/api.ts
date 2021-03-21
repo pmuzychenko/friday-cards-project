@@ -41,7 +41,7 @@ export const api = {
 }
 
 export const apiPacks = {
-    getPacks(page: number = 1, pageCount: number = 8, sortProperty?:string, userId?:string) {
+    getPacks(page: number, pageCount: number, sortProperty?:string, userId?:string) {
         if (userId) {
             return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&sortPacks=${sortProperty}&user_id=${userId}`)
         } else {
@@ -64,7 +64,7 @@ export const apiPacks = {
 }
 
 export const apiCards = {
-    getCards(page: number = 1, pageCount: number = 8, packID: string) {
+    getCards(page: number, pageCount: number, packID: string) {
         return instance.get(`cards/card?cardsPack_id=${packID}&page=${page}&pageCount=${pageCount}`)
     },
     addCard(packID: string) {

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {ChangeEvent, useEffect, useState} from 'react';
-import {Redirect} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {AppRootStateType} from '../../../reducers/store';
+import { AppRootStateType } from '../../../reducers/store';
 import {
     addPackTC,
     ColumnType,
@@ -13,7 +13,7 @@ import {
     updatePackTC
 } from '../../../reducers/packs-reducer';
 import Pagination from '../../common/Pagination/Pagination';
-import {Pack} from './Pack/Pack';
+import { Pack } from './Pack/Pack';
 
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
@@ -23,13 +23,16 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
-import {TableSortLabel} from '@material-ui/core';
+import { TableSortLabel } from '@material-ui/core';
 import styles from './Packs.module.css'
+import Checkbox from '@material-ui/core/Checkbox';
 
 
 export function Packs() {
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const userId = useSelector<AppRootStateType, string | undefined>(state => state.login.data?._id)
+
     const packs = useSelector<AppRootStateType, Array<PackType>>(state => state.packs.packs)
     const columns = useSelector<AppRootStateType, Array<ColumnType>>(state => state.packs.columns)
     const cardPacksTotalCount = useSelector<AppRootStateType, number>(state => state.packs.cardPacksTotalCount)
@@ -37,79 +40,109 @@ export function Packs() {
     const currentPage = useSelector<AppRootStateType, number>(state => state.packs.page)
     const pagesAmount = Math.ceil(cardPacksTotalCount / pageSize)
 
-    const userId = useSelector<AppRootStateType, string | undefined>(state => state.login.data?._id)
-
-    const [myPacksShowValue, setMyPacksShowValue] = useState<boolean>(false)
-
-    const [sortProperty, setSortProperty] = useState<string>('')
+    let startMyPacksShowValue = localStorage.myPacksShowValue ? JSON.parse(localStorage.myPacksShowValue) : false
+    let startSortProperty = localStorage.sortProperty ? JSON.parse(localStorage.sortProperty) : ''
+    const [myPacksShowValue, setMyPacksShowValue] = useState<boolean>(startMyPacksShowValue)
+    const [sortProperty, setSortProperty] = useState<string>(startSortProperty)
 
     const addPack = () => {
         if (myPacksShowValue) {
-            userId && dispatch(addPackTC(userId))
+            userId && dispatch(addPackTC(sortProperty, userId))
         } else {
-            dispatch(addPackTC())
+            dispatch(addPackTC(sortProperty))
         }
     }
 
     const showMyPacks = (e: ChangeEvent<HTMLInputElement>) => {
-        setMyPacksShowValue(e.currentTarget.checked)
-        if (!myPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, userId))
-        } else {
-            dispatch(getPacksTC(currentPage, pageSize))
-        }
-    }
-
-    const deletePack = (packID: string) => {
-        if (myPacksShowValue) {
-            userId && dispatch(deletePackTC(packID, userId))
-        } else {
-            dispatch(deletePackTC(packID))
-        }
-    }
-
-    const updatePack = (packID: string) => {
-        if (myPacksShowValue) {
-            userId && dispatch(updatePackTC(packID, userId))
-        } else {
-            dispatch(updatePackTC(packID))
-        }
-    }
-
-    const sortUpByName = () => {
-
-        setSortProperty('1name')
-        if (myPacksShowValue) {
+        localStorage.setItem('myPacksShowValue', JSON.stringify(e.currentTarget.checked))
+        let parsedMyPacksShowValue = JSON.parse(localStorage.myPacksShowValue)
+        setMyPacksShowValue(parsedMyPacksShowValue)
+        if (parsedMyPacksShowValue) {
             userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, userId))
         } else {
             dispatch(getPacksTC(currentPage, pageSize, sortProperty))
         }
     }
 
-    const sortDownByName = () => {
-        setSortProperty('0name')
+    const deletePack = (packID: string) => {
         if (myPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, userId))
+            userId && dispatch(deletePackTC(packID, sortProperty, userId))
         } else {
-            dispatch(getPacksTC(currentPage, pageSize,sortProperty))
+            dispatch(deletePackTC(packID, sortProperty))
+        }
+    }
+
+    const updatePack = (packID: string) => {
+        if (myPacksShowValue) {
+            userId && dispatch(updatePackTC(packID, sortProperty, userId))
+        } else {
+            dispatch(updatePackTC(packID, sortProperty))
+        }
+    }
+
+    const sortUpByName = () => {
+        localStorage.setItem('sortProperty', JSON.stringify('1name'))
+        let parsedSortProperty = JSON.parse(localStorage.sortProperty)
+        setSortProperty(parsedSortProperty)
+        if (myPacksShowValue) {
+            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, userId))
+        } else {
+            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty))
+        }
+    }
+
+    const sortDownByName = () => {
+        localStorage.setItem('sortProperty', JSON.stringify('0name'))
+        let parsedSortProperty = JSON.parse(localStorage.sortProperty)
+        setSortProperty(parsedSortProperty)
+        if (myPacksShowValue) {
+            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, userId))
+        } else {
+            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty))
         }
     }
 
     const sortUpByAmount = () => {
-        setSortProperty('1cardsCount')
+        localStorage.setItem('sortProperty', JSON.stringify('1cardsCount'))
+        let parsedSortProperty = JSON.parse(localStorage.sortProperty)
+        setSortProperty(parsedSortProperty)
         if (myPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, userId))
+            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, userId))
         } else {
-            dispatch(getPacksTC(currentPage, pageSize,sortProperty))
+            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty))
         }
     }
 
     const sortDownByAmount = () => {
-        setSortProperty('0cardsCount')
+        localStorage.setItem('sortProperty', JSON.stringify('0cardsCount'))
+        let parsedSortProperty = JSON.parse(localStorage.sortProperty)
+        setSortProperty(parsedSortProperty)
         if (myPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, userId))
+            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, userId))
         } else {
-            dispatch(getPacksTC(currentPage, pageSize,sortProperty))
+            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty))
+        }
+    }
+
+    const sortUpByGrade = () => {
+        localStorage.setItem('sortProperty', JSON.stringify('1grade'))
+        let parsedSortProperty = JSON.parse(localStorage.sortProperty)
+        setSortProperty(parsedSortProperty)
+        if (myPacksShowValue) {
+            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, userId))
+        } else {
+            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty))
+        }
+    }
+
+    const sortDownByGrade = () => {
+        localStorage.setItem('sortProperty', JSON.stringify('0grade'))
+        let parsedSortProperty = JSON.parse(localStorage.sortProperty)
+        setSortProperty(parsedSortProperty)
+        if (myPacksShowValue) {
+            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, userId))
+        } else {
+            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty))
         }
     }
 
@@ -123,14 +156,14 @@ export function Packs() {
 
     useEffect(() => {
         if (myPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, userId))
+            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, userId))
         } else {
-            dispatch(getPacksTC(currentPage, pageSize))
+            dispatch(getPacksTC(currentPage, pageSize, sortProperty))
         }
     }, [])
 
     if (!isLoggedIn) {
-        return <Redirect to={'/login'}/>
+        return <Redirect to={'/login'} />
     }
 
     // работает, но затирает стиль текущей страницы
@@ -140,51 +173,63 @@ export function Packs() {
 
     return (
         <div>
-            <h1 className={styles.packsHeader}>Cards Pack</h1>
-            <input type='checkbox' checked={myPacksShowValue} onChange={showMyPacks}/><span
-            className={styles.showMyPacks}>Show My Packs</span>
+            <h2 className={styles.packsHeader}>PACKS OF CARDS</h2>
+            <Checkbox checked={myPacksShowValue} onChange={showMyPacks} color={'primary'} />
+            <span className={styles.showMyPacksTitle}>My packs</span>
             <TableContainer component={Paper} className={styles.packsTable}>
                 <Table>
-                    <TableHead>
-                        <TableRow>
+                    <TableHead className={styles.packsTableHead}>
+                        <TableRow className={styles.packsTableHeadColumnRow}>
                             {columns.map(column => {
                                 return (
                                     <TableCell
                                         key={column.id}
-                                        component='th'
-                                        style={{fontWeight: 'bold'}}
+                                        align='center'
+                                        className={styles.cell}
                                     >{column.name}
                                         {column.name === 'Name' &&
-                                        <div style={{display: 'inline-block'}}>
-                                            <TableSortLabel
-                                                active={true}
-                                                direction={'asc'}
-                                                onClick={sortUpByName}
-                                            />
-                                            <TableSortLabel
-                                                active={true}
-                                                direction={'desc'}
-                                                onClick={sortDownByName}
-                                            />
-                                        </div>
-                                        }
+                                            <div>
+                                                <TableSortLabel
+                                                    active={true}
+                                                    direction={'asc'}
+                                                    onClick={sortUpByName}
+                                                />
+                                                <TableSortLabel
+                                                    active={true}
+                                                    direction={'desc'}
+                                                    onClick={sortDownByName}
+                                                />
+                                            </div>}
                                         {column.name === 'Amount of cards' &&
-                                        <div style={{display: 'inline-block'}}>
-                                            <TableSortLabel
-                                                active={true}
-                                                direction={'asc'}
-                                                onClick={sortUpByAmount}
-                                            />
-                                            <TableSortLabel
-                                                active={true}
-                                                direction={'desc'}
-                                                onClick={sortDownByAmount}
-                                            />
-                                        </div>}
+                                            <div>
+                                                <TableSortLabel
+                                                    active={true}
+                                                    direction={'asc'}
+                                                    onClick={sortUpByAmount}
+                                                />
+                                                <TableSortLabel
+                                                    active={true}
+                                                    direction={'desc'}
+                                                    onClick={sortDownByAmount}
+                                                />
+                                            </div>}
+                                            {column.name === 'Grade' &&
+                                            <div>
+                                                <TableSortLabel
+                                                    active={true}
+                                                    direction={'asc'}
+                                                    onClick={sortUpByGrade}
+                                                />
+                                                <TableSortLabel
+                                                    active={true}
+                                                    direction={'desc'}
+                                                    onClick={sortDownByGrade}
+                                                />
+                                            </div>}
                                     </TableCell>
                                 )
                             })}
-                            <TableCell colSpan={2}>
+                            <TableCell colSpan={3} align='center'>
                                 <Button color="primary" variant={'contained'} onClick={addPack}>
                                     Add pack
                                 </Button>
@@ -202,11 +247,11 @@ export function Packs() {
                             updated={pack.updated}
                             deletePack={deletePack}
                             updatePack={updatePack}
-                            />
+                        />
                         )}
                     </TableBody>
                 </Table>
-                <Pagination totalCount={pagesAmount} onPageChanged={onPageChanged}/>
+                <Pagination totalCount={pagesAmount} onPageChanged={onPageChanged} />
             </TableContainer>
         </div>
     )

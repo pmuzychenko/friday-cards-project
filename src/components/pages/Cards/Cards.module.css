@@ -1,0 +1,18 @@
+.cardsHeader {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.cardsTable {
+    border: 1px solid black;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.cardsTableHead {
+    background-color: rgb(245, 216, 241);
+}
+
+.cardsTableHeadColumnRow .cell {
+    font-weight: bold
+}

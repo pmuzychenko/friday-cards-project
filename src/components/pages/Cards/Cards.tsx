@@ -18,6 +18,7 @@ import Paper from '@material-ui/core/Paper';
 import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
 
+import styles from './Cards.module.css'
 
 type MatchParams = {
     id: string;
@@ -29,7 +30,7 @@ export function Cards() {
 
     const cards = useSelector<AppRootStateType, CardsStateType>(state => state.cards.cards)
     const columns = useSelector<AppRootStateType, Array<ColumnType>>(state => state.cards.columns)
-    
+
     const cardsTotalCount = useSelector<AppRootStateType, number>(state => state.cards.cardsTotalCount)
     const pageSize = useSelector<AppRootStateType, number>(state => state.cards.pageCount)
     const currentPage = useSelector<AppRootStateType, number>(state => state.cards.page)
@@ -69,45 +70,49 @@ export function Cards() {
     // }
 
     return (
-        <TableContainer component={Paper}>
-            <Table>
-                <TableHead>
-                    <TableRow >
-                        {columns.map(column => {
+        <div>
+            <h2 className={styles.cardsHeader}>CARDS</h2>
+            <TableContainer component={Paper} className={styles.cardsTable}>
+                <Table>
+                    <TableHead className={styles.cardsTableHead}>
+                        <TableRow className={styles.cardsTableHeadColumnRow}>
+                            {columns.map(column => {
+                                return (
+                                    <TableCell
+                                        key={column.id}
+                                        component='th'
+                                        align='center'
+                                        className={styles.cell}
+                                    >{column.name}</TableCell >
+                                )
+                            })}
+                            <TableCell colSpan={2} align='center'>
+                                <Button color="secondary" variant={'contained'} onClick={addCard}>
+                                    Add card
+                            </Button>
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {cardsForPack && cardsForPack.map(card => {
                             return (
-                                <TableCell
-                                    key={column.id}
-                                    component='th'
-                                    style={{ fontWeight: 'bold' }}
-                                >{column.name}</TableCell >
+                                <Card
+                                    key={card._id}
+                                    cardID={card._id}
+                                    user_id={card.user_id}
+                                    question={card.question}
+                                    answer={card.answer}
+                                    grade={card.grade}
+                                    updated={card.updated}
+                                    deleteCard={deleteCard}
+                                    updateCard={updateCard}
+                                />
                             )
                         })}
-                        <TableCell colSpan={2}>
-                            <Button color="secondary" variant={'contained'} onClick={addCard}>
-                                Add card
-                            </Button>
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {cardsForPack && cardsForPack.map(card => {
-                        return (
-                            <Card
-                                key={card._id}
-                                cardID={card._id}
-                                user_id={card.user_id}
-                                question={card.question}
-                                answer={card.answer}
-                                grade={card.grade}
-                                updated={card.updated}
-                                deleteCard={deleteCard}
-                                updateCard={updateCard}
-                            />
-                        )
-                    })}
-                </TableBody>
-            </Table>
-            <Pagination totalCount={pagesAmount} onPageChanged={onPageChanged} />
-        </TableContainer>
+                    </TableBody>
+                </Table>
+                <Pagination totalCount={pagesAmount} onPageChanged={onPageChanged} />
+            </TableContainer>
+        </div>
     )
 }

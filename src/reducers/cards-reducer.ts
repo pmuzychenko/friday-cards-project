@@ -14,8 +14,8 @@ const initialState = {
         { id: 4, name: 'Updated' }
     ],
     page: 1,
-    pageCount: 8,
-    cardsTotalCount: 8
+    pageCount: 6,
+    cardsTotalCount: 10
 }
 
 export type CardType = {

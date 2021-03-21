@@ -1,0 +1,32 @@
+.tablePackRow:hover {
+    background-color: rgb(232, 232, 243);
+}
+
+.tableRowCellName {
+    white-space: normal;
+    word-wrap: break-word; 
+    width: 250px
+}
+
+.tableRowCellCardsCount {
+    width: 180px
+}
+
+.tableRowCellGrade {
+    width: 100px
+}
+
+.tableRowCellUpdated {
+    width: 200px
+}
+
+.tableRowCellCardsLink a {
+    text-decoration: none;
+    color: rgb(120, 120, 255);
+    font-weight: bold;
+}
+
+.tableRowCellCardsLink a:hover {
+    color: rgb(120, 120, 255);
+    text-decoration: underline
+}

@@ -1,11 +1,14 @@
 import * as React from 'react';
+import { useSelector } from "react-redux";
 
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { IconButton } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../../../reducers/store";
+
+import { AppRootStateType } from "../../../../reducers/store";
+
+import styles from './Card.module.css'
 
 type CardPropsType = {
     cardID: string
@@ -23,6 +26,15 @@ export function Card(props: CardPropsType) {
 
     const { cardID, question, answer, grade, updated, user_id } = props
 
+    const date = new Date(updated)
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
+    const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+    const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+    const dateOfUpdate = `${day}-${month}-${year}`
+    const timeOfUpdate = `${hours}:${minutes}`
+
     const deleteCard = () => {
         props.deleteCard(cardID)
     }
@@ -32,19 +44,22 @@ export function Card(props: CardPropsType) {
     }
 
     return (
-        <TableRow>
-            <TableCell>{question}</TableCell>
-            <TableCell>{answer}</TableCell>
-            <TableCell>{grade}</TableCell>
-            <TableCell>{updated}</TableCell>
+        <TableRow className={styles.tableCardRow}>
+            <TableCell className={styles.tableRowCellQuestion}>{question}</TableCell>
+            <TableCell className={styles.tableRowCellAnswer}>{answer}</TableCell>
+            <TableCell className={styles.tableRowCellGrade} align='center'>{grade}</TableCell>
+            <TableCell className={styles.tableRowCellUpdated} align='center'>
+                {dateOfUpdate}<br />
+                {timeOfUpdate}
+            </TableCell>
             <TableCell>
                 <IconButton onClick={updateCard} disabled={userId !== user_id}>
-                    <Edit color={userId !== user_id ? "disabled" : "secondary" }/>
+                    <Edit color={userId !== user_id ? "disabled" : "secondary"} />
                 </IconButton>
             </TableCell>
             <TableCell>
                 <IconButton onClick={deleteCard} disabled={userId !== user_id}>
-                    <Delete color={userId !== user_id ? "disabled" : "secondary" }/>
+                    <Delete color={userId !== user_id ? "disabled" : "secondary"} />
                 </IconButton>
             </TableCell>
         </TableRow>

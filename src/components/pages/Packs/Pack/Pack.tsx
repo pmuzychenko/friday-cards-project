@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from "react-redux";
+
+import { AppRootStateType } from "../../../../reducers/store";
 
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import IconButton from '@material-ui/core/IconButton';
 import { Delete, Edit } from '@material-ui/icons';
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../../../reducers/store";
 
+import styles from './Pack.module.css'
 
 type PackPropsType = {
     id: string
@@ -27,6 +29,15 @@ export function Pack(props: PackPropsType) {
 
     const { id, name, cardsCount, grade, updated, user_id } = props
 
+    const date = new Date(updated)
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
+    const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+    const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+    const dateOfUpdate = `${day}-${month}-${year}`
+    const timeOfUpdate = `${hours}:${minutes}`
+
     const deletePack = () => {
         props.deletePack(id)
     }
@@ -36,22 +47,25 @@ export function Pack(props: PackPropsType) {
     }
 
     return (
-        <TableRow>
-            <TableCell>{name}</TableCell>
-            <TableCell>{cardsCount}</TableCell>
-            <TableCell>{grade}</TableCell>
-            <TableCell>{updated}</TableCell>
+        <TableRow className={styles.tablePackRow}>
+            <TableCell className={styles.tableRowCellName}>{name}</TableCell>
+            <TableCell className={styles.tableRowCellCardsCount} align='center'>{cardsCount}</TableCell>
+            <TableCell className={styles.tableRowCellGrade} align='center'>{grade}</TableCell>
+            <TableCell className={styles.tableRowCellUpdated} align='center'>
+                {dateOfUpdate}<br />
+                {timeOfUpdate}
+            </TableCell>
             <TableCell>
                 <IconButton onClick={updatePack} disabled={userId !== user_id}>
-                    <Edit color={userId !== user_id ? "disabled" : "primary" }/>
+                    <Edit color={userId !== user_id ? "disabled" : "primary"} />
                 </IconButton>
             </TableCell>
             <TableCell>
                 <IconButton onClick={deletePack} disabled={userId !== user_id}>
-                    <Delete color={userId !== user_id ? "disabled" : "primary" }/>
+                    <Delete color={userId !== user_id ? "disabled" : "primary"} />
                 </IconButton>
             </TableCell>
-            <TableCell>
+            <TableCell className={styles.tableRowCellCardsLink}>
                 <NavLink to={'/cards/' + id}>Cards</NavLink>
             </TableCell>
         </TableRow>
