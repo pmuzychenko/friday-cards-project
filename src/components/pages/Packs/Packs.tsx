@@ -26,6 +26,7 @@ import Table from '@material-ui/core/Table';
 import { TableSortLabel } from '@material-ui/core';
 import styles from './Packs.module.css'
 import Checkbox from '@material-ui/core/Checkbox';
+import TextField from '@material-ui/core/TextField';
 
 
 export function Packs() {
@@ -42,14 +43,16 @@ export function Packs() {
 
     let startMyPacksShowValue = localStorage.myPacksShowValue ? JSON.parse(localStorage.myPacksShowValue) : false
     let startSortProperty = localStorage.sortProperty ? JSON.parse(localStorage.sortProperty) : ''
+    let startFilterProperty = localStorage.filterProperty ? JSON.parse(localStorage.filterProperty) : ''
     const [myPacksShowValue, setMyPacksShowValue] = useState<boolean>(startMyPacksShowValue)
     const [sortProperty, setSortProperty] = useState<string>(startSortProperty)
+    const [searchPack, setSearchPack] = useState<string>(startFilterProperty)
 
     const addPack = () => {
         if (myPacksShowValue) {
-            userId && dispatch(addPackTC(sortProperty, userId))
+            userId && dispatch(addPackTC(sortProperty, searchPack, userId))
         } else {
-            dispatch(addPackTC(sortProperty))
+            dispatch(addPackTC(sortProperty, searchPack))
         }
     }
 
@@ -58,25 +61,25 @@ export function Packs() {
         let parsedMyPacksShowValue = JSON.parse(localStorage.myPacksShowValue)
         setMyPacksShowValue(parsedMyPacksShowValue)
         if (parsedMyPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, userId))
+            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, searchPack, userId))
         } else {
-            dispatch(getPacksTC(currentPage, pageSize, sortProperty))
+            dispatch(getPacksTC(currentPage, pageSize, searchPack, sortProperty))
         }
     }
 
     const deletePack = (packID: string) => {
         if (myPacksShowValue) {
-            userId && dispatch(deletePackTC(packID, sortProperty, userId))
+            userId && dispatch(deletePackTC(packID, sortProperty, searchPack, userId))
         } else {
-            dispatch(deletePackTC(packID, sortProperty))
+            dispatch(deletePackTC(packID, sortProperty, searchPack))
         }
     }
 
     const updatePack = (packID: string) => {
         if (myPacksShowValue) {
-            userId && dispatch(updatePackTC(packID, sortProperty, userId))
+            userId && dispatch(updatePackTC(packID, sortProperty, searchPack, userId))
         } else {
-            dispatch(updatePackTC(packID, sortProperty))
+            dispatch(updatePackTC(packID, sortProperty, searchPack))
         }
     }
 
@@ -85,9 +88,9 @@ export function Packs() {
         let parsedSortProperty = JSON.parse(localStorage.sortProperty)
         setSortProperty(parsedSortProperty)
         if (myPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, userId))
+            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, searchPack, userId))
         } else {
-            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty))
+            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, searchPack))
         }
     }
 
@@ -96,9 +99,9 @@ export function Packs() {
         let parsedSortProperty = JSON.parse(localStorage.sortProperty)
         setSortProperty(parsedSortProperty)
         if (myPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, userId))
+            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, searchPack, userId))
         } else {
-            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty))
+            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, searchPack))
         }
     }
 
@@ -107,9 +110,9 @@ export function Packs() {
         let parsedSortProperty = JSON.parse(localStorage.sortProperty)
         setSortProperty(parsedSortProperty)
         if (myPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, userId))
+            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, searchPack, userId))
         } else {
-            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty))
+            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, searchPack))
         }
     }
 
@@ -118,9 +121,9 @@ export function Packs() {
         let parsedSortProperty = JSON.parse(localStorage.sortProperty)
         setSortProperty(parsedSortProperty)
         if (myPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, userId))
+            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, searchPack, userId))
         } else {
-            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty))
+            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, searchPack))
         }
     }
 
@@ -129,9 +132,9 @@ export function Packs() {
         let parsedSortProperty = JSON.parse(localStorage.sortProperty)
         setSortProperty(parsedSortProperty)
         if (myPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, userId))
+            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, searchPack, userId))
         } else {
-            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty))
+            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, searchPack))
         }
     }
 
@@ -140,25 +143,36 @@ export function Packs() {
         let parsedSortProperty = JSON.parse(localStorage.sortProperty)
         setSortProperty(parsedSortProperty)
         if (myPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, userId))
+            userId && dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, searchPack, userId))
         } else {
-            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty))
+            dispatch(getPacksTC(currentPage, pageSize, parsedSortProperty, searchPack))
         }
     }
 
     const onPageChanged = (pageNumber: number) => {
         if (myPacksShowValue) {
-            userId && dispatch(getPacksTC(pageNumber, pageSize, sortProperty, userId))
+            userId && dispatch(getPacksTC(pageNumber, pageSize, sortProperty, searchPack, userId))
         } else {
-            dispatch(getPacksTC(pageNumber, pageSize, sortProperty))
+            dispatch(getPacksTC(pageNumber, pageSize, sortProperty, searchPack))
+        }
+    }
+
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        localStorage.setItem('filterProperty', JSON.stringify(e.currentTarget.value))
+        let parsedFilterProperty = JSON.parse(localStorage.filterProperty)
+        setSearchPack(parsedFilterProperty)
+        if (myPacksShowValue) {
+            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, parsedFilterProperty, userId))
+        } else {
+            dispatch(getPacksTC(currentPage, pageSize, sortProperty, parsedFilterProperty))
         }
     }
 
     useEffect(() => {
         if (myPacksShowValue) {
-            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, userId))
+            userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, searchPack, userId))
         } else {
-            dispatch(getPacksTC(currentPage, pageSize, sortProperty))
+            dispatch(getPacksTC(currentPage, pageSize, sortProperty, searchPack))
         }
     }, [])
 
@@ -174,8 +188,17 @@ export function Packs() {
     return (
         <div>
             <h2 className={styles.packsHeader}>PACKS OF CARDS</h2>
-            <Checkbox checked={myPacksShowValue} onChange={showMyPacks} color={'primary'} />
-            <span className={styles.showMyPacksTitle}>My packs</span>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <TextField 
+                label="Search packs by name" 
+                style={{ marginRight: '30px' }}
+                value={searchPack}
+                onChange={onChangeHandler} />
+            </div>
+            <div>
+                <Checkbox checked={myPacksShowValue} onChange={showMyPacks} color={'primary'} />
+                <span className={styles.showMyPacksTitle}>My packs</span>
+            </div>
             <TableContainer component={Paper} className={styles.packsTable}>
                 <Table>
                     <TableHead className={styles.packsTableHead}>
@@ -213,7 +236,7 @@ export function Packs() {
                                                     onClick={sortDownByAmount}
                                                 />
                                             </div>}
-                                            {column.name === 'Grade' &&
+                                        {column.name === 'Grade' &&
                                             <div>
                                                 <TableSortLabel
                                                     active={true}

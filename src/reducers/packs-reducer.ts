@@ -59,11 +59,11 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 
 // thunks
 
-export const getPacksTC = (page: number, pageCount: number, sortProperty?: string, userId?: string) =>
+export const getPacksTC = (page?: number, pageCount?: number, sortProperty?: string, packName?: string, userId?: string) =>
     (dispatch: Dispatch) => {
         dispatch(setAppStatusAC('loading'))
-        dispatch(setCurrentPageAC(page))
-        apiPacks.getPacks(page, pageCount, sortProperty, userId)
+        page && dispatch(setCurrentPageAC(page))
+        apiPacks.getPacks(page, pageCount, sortProperty, packName, userId)
             .then(res => {
                 dispatch(setAppStatusAC('succeeded'))
                 dispatch(setPacksAC(res.data.cardPacks))
@@ -76,14 +76,14 @@ export const getPacksTC = (page: number, pageCount: number, sortProperty?: strin
     }
 
 
-export const addPackTC = (sortProperty?: string, userId?: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+export const addPackTC = (sortProperty?: string, packName?: string, userId?: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
     (dispatch, getState) => {
         dispatch(setAppStatusAC('loading'))
         const { page, pageCount } = getState().packs
         apiPacks.addPack()
             .then(res => {
                 dispatch(setAppStatusAC('succeeded'))
-                dispatch(getPacksTC(page, pageCount, sortProperty, userId))
+                dispatch(getPacksTC(page, pageCount, sortProperty, packName, userId))
             })
             .catch(error => {
                 dispatch(setAppStatusAC('failed'))
@@ -91,14 +91,14 @@ export const addPackTC = (sortProperty?: string, userId?: string): ThunkAction<v
             })
     }
 
-export const deletePackTC = (packID: string, sortProperty?: string, userId?: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+export const deletePackTC = (packID: string, sortProperty?: string, packName?: string, userId?: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
     (dispatch, getState) => {
         dispatch(setAppStatusAC('loading'))
         const { page, pageCount } = getState().packs
         apiPacks.deletePack(packID)
             .then(res => {
                 dispatch(setAppStatusAC('succeeded'))
-                dispatch(getPacksTC(page, pageCount, sortProperty, userId))
+                dispatch(getPacksTC(page, pageCount, sortProperty, packName, userId))
             })
             .catch(error => {
                 dispatch(setAppStatusAC('failed'))
@@ -106,14 +106,14 @@ export const deletePackTC = (packID: string, sortProperty?: string, userId?: str
             })
     }
 
-export const updatePackTC = (packID: string, sortProperty?: string, userId?: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+export const updatePackTC = (packID: string, sortProperty?: string, packName?: string, userId?: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
     (dispatch, getState) => {
         dispatch(setAppStatusAC('loading'))
         const { page, pageCount } = getState().packs
         apiPacks.updatePack(packID)
             .then(res => {
                 dispatch(setAppStatusAC('succeeded'))
-                dispatch(getPacksTC(page, pageCount, sortProperty, userId))
+                dispatch(getPacksTC(page, pageCount, sortProperty, packName, userId))
             })
             .catch(error => {
                 dispatch(setAppStatusAC('failed'))

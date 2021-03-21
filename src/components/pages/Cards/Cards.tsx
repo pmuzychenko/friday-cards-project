@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Redirect, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AppRootStateType } from '../../../reducers/store';
 import { ColumnType } from '../../../reducers/packs-reducer';
@@ -19,6 +19,7 @@ import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
 
 import styles from './Cards.module.css'
+import { TableSortLabel } from '@material-ui/core';
 
 type MatchParams = {
     id: string;
@@ -40,6 +41,9 @@ export function Cards() {
     const packID = match?.params.id
     const cardsForPack = packID && cards[packID]
 
+    let startSortPropertyCards = localStorage.sortPropertyCards ? JSON.parse(localStorage.sortPropertyCards) : ''
+    const [sortProperty, setSortProperty] = useState<string>(startSortPropertyCards)
+
     const addCard = () => {
         packID && dispatch(addCardTC(packID))
     }
@@ -56,8 +60,22 @@ export function Cards() {
         packID && dispatch(getCardsTC(pageNumber, pageSize, packID))
     }
 
+    const sortUpByGrade = () => {
+        localStorage.setItem('sortPropertyCards', JSON.stringify('1grade'))
+        let parsedSortProperty = JSON.parse(localStorage.sortPropertyCards)
+        setSortProperty(parsedSortProperty)
+        packID && dispatch(getCardsTC(currentPage, pageSize, packID, parsedSortProperty))
+    }
+
+    const sortDownByGrade = () => {
+        localStorage.setItem('sortPropertyCards', JSON.stringify('0grade'))
+        let parsedSortProperty = JSON.parse(localStorage.sortPropertyCards)
+        setSortProperty(parsedSortProperty)
+        packID && dispatch(getCardsTC(currentPage, pageSize, packID, parsedSortProperty))
+    }
+
     useEffect(() => {
-        packID && dispatch(getCardsTC(currentPage, pageSize, packID))
+        packID && dispatch(getCardsTC(currentPage, pageSize, packID, sortProperty))
     }, [])
 
     if (!isLoggedIn) {
@@ -83,7 +101,21 @@ export function Cards() {
                                         component='th'
                                         align='center'
                                         className={styles.cell}
-                                    >{column.name}</TableCell >
+                                    >{column.name}
+                                        {column.name === 'Grade' &&
+                                            <div>
+                                                <TableSortLabel
+                                                    active={true}
+                                                    direction={'asc'}
+                                                    onClick={sortUpByGrade}
+                                                />
+                                                <TableSortLabel
+                                                    active={true}
+                                                    direction={'desc'}
+                                                    onClick={sortDownByGrade}
+                                                />
+                                            </div>}
+                                    </TableCell >
                                 )
                             })}
                             <TableCell colSpan={2} align='center'>

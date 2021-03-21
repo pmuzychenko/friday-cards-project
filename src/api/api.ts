@@ -3,8 +3,8 @@ import { LoginFormData } from "../reducers/login-reducer";
 
 
 const instance = axios.create({
-    //baseURL: `https://neko-back.herokuapp.com/2.0`,
-    baseURL: `http://localhost:7542/2.0/`,
+    baseURL: `https://neko-back.herokuapp.com/2.0`,
+    // baseURL: `http://localhost:7542/2.0/`,
     withCredentials: true
 })
 
@@ -41,11 +41,11 @@ export const api = {
 }
 
 export const apiPacks = {
-    getPacks(page: number, pageCount: number, sortProperty?:string, userId?:string) {
+    getPacks(page?: number, pageCount?: number, sortProperty?:string, packName?: string, userId?:string) {
         if (userId) {
-            return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&sortPacks=${sortProperty}&user_id=${userId}`)
+            return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&sortPacks=${sortProperty}&packName=${packName}&user_id=${userId}`)
         } else {
-            return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&sortPacks=${sortProperty}`)
+            return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&sortPacks=${sortProperty}&packName=${packName}`)
         }
     },
     addPack() {
@@ -64,8 +64,8 @@ export const apiPacks = {
 }
 
 export const apiCards = {
-    getCards(page: number, pageCount: number, packID: string) {
-        return instance.get(`cards/card?cardsPack_id=${packID}&page=${page}&pageCount=${pageCount}`)
+    getCards(page: number, pageCount: number, packID: string, sortProperty?:string) {
+        return instance.get(`cards/card?cardsPack_id=${packID}&page=${page}&pageCount=${pageCount}&sortCards=${sortProperty}`)
     },
     addCard(packID: string) {
         return instance.post(`cards/card`, {

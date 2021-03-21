@@ -63,11 +63,11 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
 }
 
 // thunks
-export const getCardsTC = (page: number, pageCount: number, packID: string) =>
+export const getCardsTC = (page: number, pageCount: number, packID: string, sortProperty?: string) =>
     (dispatch: Dispatch) => {
         dispatch(setAppStatusAC('loading'))
         dispatch(setCurrentPageAC(page))
-        apiCards.getCards(page, pageCount, packID)
+        apiCards.getCards(page, pageCount, packID, sortProperty)
             .then(res => {
                 dispatch(setAppStatusAC('succeeded'))
                 dispatch(setCardsAC(res.data.cards, packID))
