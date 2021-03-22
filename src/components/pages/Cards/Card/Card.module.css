@@ -1,0 +1,21 @@
+.tableCardRow:hover {
+    background-color: rgb(255, 237, 252);
+}
+
+.tableRowCellQuestion {
+    white-space: normal;
+    word-wrap: break-word; 
+    width: 200px
+}
+
+.tableRowCellAnswer {
+    width: 300px
+}
+
+.tableRowCellGrade {
+    width: 100px
+}
+
+.tableRowCellUpdated {
+    width: 200px
+}

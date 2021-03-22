@@ -14,12 +14,13 @@ const initialState = {
         { id: 4, name: 'Date of updates' }
     ],
     page: 1,
-    pageCount: 8,
-    cardPacksTotalCount: 8
+    pageCount: 6,
+    cardPacksTotalCount: 10
 }
 
 export type PackType = {
     _id: string
+    user_id: string
     name: string
     cardsCount: number
     grade: number
@@ -43,7 +44,7 @@ type InitialStateType = {
 export const packsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'SET-PACKS': {
-            return { ...state, packs: action.packs }
+            return { ...state, packs: action.packs.map(pack => ({...pack})) }
         }
         case 'SET-PACKS-TOTAL-COUNT': {
             return { ...state, cardPacksTotalCount: action.cardPacksTotalCount }
@@ -57,11 +58,12 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 }
 
 // thunks
-export const getPacksTC = (page: number, pageCount: number) =>
+
+export const getPacksTC = (page?: number, pageCount?: number, sortProperty?: string, packName?: string, userId?: string) =>
     (dispatch: Dispatch) => {
         dispatch(setAppStatusAC('loading'))
-        dispatch(setCurrentPageAC(page))
-        apiPacks.getPacks(page, pageCount)
+        page && dispatch(setCurrentPageAC(page))
+        apiPacks.getPacks(page, pageCount, sortProperty, packName, userId)
             .then(res => {
                 dispatch(setAppStatusAC('succeeded'))
                 dispatch(setPacksAC(res.data.cardPacks))
@@ -73,14 +75,15 @@ export const getPacksTC = (page: number, pageCount: number) =>
             })
     }
 
-export const addPackTC = (): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+
+export const addPackTC = (sortProperty?: string, packName?: string, userId?: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
     (dispatch, getState) => {
         dispatch(setAppStatusAC('loading'))
         const { page, pageCount } = getState().packs
         apiPacks.addPack()
             .then(res => {
                 dispatch(setAppStatusAC('succeeded'))
-                dispatch(getPacksTC(page, pageCount))
+                dispatch(getPacksTC(page, pageCount, sortProperty, packName, userId))
             })
             .catch(error => {
                 dispatch(setAppStatusAC('failed'))
@@ -88,14 +91,14 @@ export const addPackTC = (): ThunkAction<void, AppRootStateType, unknown, Action
             })
     }
 
-export const deletePackTC = (packID: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+export const deletePackTC = (packID: string, sortProperty?: string, packName?: string, userId?: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
     (dispatch, getState) => {
         dispatch(setAppStatusAC('loading'))
         const { page, pageCount } = getState().packs
         apiPacks.deletePack(packID)
             .then(res => {
                 dispatch(setAppStatusAC('succeeded'))
-                dispatch(getPacksTC(page, pageCount))
+                dispatch(getPacksTC(page, pageCount, sortProperty, packName, userId))
             })
             .catch(error => {
                 dispatch(setAppStatusAC('failed'))
@@ -103,14 +106,14 @@ export const deletePackTC = (packID: string): ThunkAction<void, AppRootStateType
             })
     }
 
-export const updatePackTC = (packID: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
+export const updatePackTC = (packID: string, sortProperty?: string, packName?: string, userId?: string): ThunkAction<void, AppRootStateType, unknown, ActionsType> =>
     (dispatch, getState) => {
         dispatch(setAppStatusAC('loading'))
         const { page, pageCount } = getState().packs
         apiPacks.updatePack(packID)
             .then(res => {
                 dispatch(setAppStatusAC('succeeded'))
-                dispatch(getPacksTC(page, pageCount))
+                dispatch(getPacksTC(page, pageCount, sortProperty, packName, userId))
             })
             .catch(error => {
                 dispatch(setAppStatusAC('failed'))

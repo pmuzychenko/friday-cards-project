@@ -1,0 +1,24 @@
+.packsHeader {
+    text-align: center;
+    margin: 10px 0;
+    padding: 0;
+}
+
+.showMyPacksTitle {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.packsTable {
+    border: 1px solid black;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.packsTableHead {
+    background-color: rgb(202, 202, 235);
+}
+
+.packsTableHeadColumnRow .cell {
+    font-weight: bold
+}

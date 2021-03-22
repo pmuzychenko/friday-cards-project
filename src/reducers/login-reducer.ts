@@ -83,6 +83,7 @@ export const logoutTC = () => (dispatch: Dispatch) => {
             dispatch(setAppStatusAC('succeeded'))
             dispatch(setIsLoggedInAC(false))
             dispatch(setUserDataAC(null))
+            localStorage.clear()
         })
         .catch((e) => {
             dispatch(setAppStatusAC('failed'))

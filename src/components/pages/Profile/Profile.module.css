@@ -2,3 +2,20 @@
     margin: 8px;
     padding: 5px;
 }
+
+.containerProfile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatarContainer {
+    width: 216px;
+    height: 300px;
+}
+
+.avatarContainer img{
+    width: 100%;
+    height: 100%;
+}
+

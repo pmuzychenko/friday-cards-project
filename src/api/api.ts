@@ -41,12 +41,16 @@ export const api = {
 }
 
 export const apiPacks = {
-    getPacks(page: number = 1, pageCount: number = 8) {
-        return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&user_id=604b5ecc479fbc000443b3e1`)
+    getPacks(page?: number, pageCount?: number, sortProperty?:string, packName?: string, userId?:string) {
+        if (userId) {
+            return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&sortPacks=${sortProperty}&packName=${packName}&user_id=${userId}`)
+        } else {
+            return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&sortPacks=${sortProperty}&packName=${packName}`)
+        }
     },
     addPack() {
         return instance.post(`cards/pack`, {
-            cardsPack: { name: 'PROJECT-CARD', private: true }
+            cardsPack: { name: 'PROJECT-CARD'}
         })
     },
     deletePack(id: string) {
@@ -60,8 +64,8 @@ export const apiPacks = {
 }
 
 export const apiCards = {
-    getCards(page: number = 1, pageCount: number = 8, packID: string) {
-        return instance.get(`cards/card?cardsPack_id=${packID}&page=${page}&pageCount=${pageCount}`)
+    getCards(page: number, pageCount: number, packID: string, sortProperty?:string) {
+        return instance.get(`cards/card?cardsPack_id=${packID}&page=${page}&pageCount=${pageCount}&sortCards=${sortProperty}`)
     },
     addCard(packID: string) {
         return instance.post(`cards/card`, {
