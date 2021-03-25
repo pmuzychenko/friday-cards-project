@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/friday-cards-project/static/css/main.3aafddb9.chunk.css",
-    "main.js": "/friday-cards-project/static/js/main.b4411112.chunk.js",
-    "main.js.map": "/friday-cards-project/static/js/main.b4411112.chunk.js.map",
+    "main.js": "/friday-cards-project/static/js/main.f0affb21.chunk.js",
+    "main.js.map": "/friday-cards-project/static/js/main.f0affb21.chunk.js.map",
     "runtime-main.js": "/friday-cards-project/static/js/runtime-main.bdcfd2a0.js",
     "runtime-main.js.map": "/friday-cards-project/static/js/runtime-main.bdcfd2a0.js.map",
-    "static/js/2.a43f2dc7.chunk.js": "/friday-cards-project/static/js/2.a43f2dc7.chunk.js",
-    "static/js/2.a43f2dc7.chunk.js.map": "/friday-cards-project/static/js/2.a43f2dc7.chunk.js.map",
+    "static/js/2.f8f7bfc1.chunk.js": "/friday-cards-project/static/js/2.f8f7bfc1.chunk.js",
+    "static/js/2.f8f7bfc1.chunk.js.map": "/friday-cards-project/static/js/2.f8f7bfc1.chunk.js.map",
     "static/js/3.cb2053f6.chunk.js": "/friday-cards-project/static/js/3.cb2053f6.chunk.js",
     "static/js/3.cb2053f6.chunk.js.map": "/friday-cards-project/static/js/3.cb2053f6.chunk.js.map",
     "index.html": "/friday-cards-project/index.html",
     "static/css/main.3aafddb9.chunk.css.map": "/friday-cards-project/static/css/main.3aafddb9.chunk.css.map",
-    "static/js/2.a43f2dc7.chunk.js.LICENSE.txt": "/friday-cards-project/static/js/2.a43f2dc7.chunk.js.LICENSE.txt"
+    "static/js/2.f8f7bfc1.chunk.js.LICENSE.txt": "/friday-cards-project/static/js/2.f8f7bfc1.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.bdcfd2a0.js",
-    "static/js/2.a43f2dc7.chunk.js",
+    "static/js/2.f8f7bfc1.chunk.js",
     "static/css/main.3aafddb9.chunk.css",
-    "static/js/main.b4411112.chunk.js"
+    "static/js/main.f0affb21.chunk.js"
   ]
 }
