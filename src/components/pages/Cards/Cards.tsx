@@ -34,7 +34,7 @@ export function Cards() {
 
     const cardsTotalCount = useSelector<AppRootStateType, number>(state => state.cards.cardsTotalCount)
     const pageSize = useSelector<AppRootStateType, number>(state => state.cards.pageCount)
-    const currentPage = useSelector<AppRootStateType, number>(state => state.cards.page)
+    let currentPage = useSelector<AppRootStateType, number>(state => state.cards.page)
     const pagesAmount = Math.ceil(cardsTotalCount / pageSize)
 
     const match = useRouteMatch<MatchParams>('/cards/:id');
@@ -57,6 +57,11 @@ export function Cards() {
     }
 
     const onPageChanged = (pageNumber: number) => {
+        window.history.pushState(
+            null,
+            document.title,
+            `${window.location.pathname}?page=${pageNumber}`
+        )
         packID && dispatch(getCardsTC(pageNumber, pageSize, packID))
     }
 
@@ -75,6 +80,10 @@ export function Cards() {
     }
 
     useEffect(() => {
+        const windowData = Object.fromEntries(new URL(String(window.location)).searchParams.entries())
+        if (windowData.page) {
+            currentPage = +windowData.page
+        }
         packID && dispatch(getCardsTC(currentPage, pageSize, packID, sortProperty))
     }, [])
 

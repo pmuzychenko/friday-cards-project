@@ -38,7 +38,7 @@ export function Packs() {
     const columns = useSelector<AppRootStateType, Array<ColumnType>>(state => state.packs.columns)
     const cardPacksTotalCount = useSelector<AppRootStateType, number>(state => state.packs.cardPacksTotalCount)
     const pageSize = useSelector<AppRootStateType, number>(state => state.packs.pageCount)
-    const currentPage = useSelector<AppRootStateType, number>(state => state.packs.page)
+    let currentPage = useSelector<AppRootStateType, number>(state => state.packs.page)
     const pagesAmount = Math.ceil(cardPacksTotalCount / pageSize)
 
     let startMyPacksShowValue = localStorage.myPacksShowValue ? JSON.parse(localStorage.myPacksShowValue) : false
@@ -150,6 +150,11 @@ export function Packs() {
     }
 
     const onPageChanged = (pageNumber: number) => {
+        window.history.pushState(
+            null,
+            document.title,
+            `${window.location.pathname}?page=${pageNumber}`
+        )
         if (myPacksShowValue) {
             userId && dispatch(getPacksTC(pageNumber, pageSize, sortProperty, searchPack, userId))
         } else {
@@ -169,6 +174,10 @@ export function Packs() {
     }
 
     useEffect(() => {
+        const windowData = Object.fromEntries(new URL(String(window.location)).searchParams.entries())
+        if (windowData.page) {
+            currentPage = +windowData.page
+        }
         if (myPacksShowValue) {
             userId && dispatch(getPacksTC(currentPage, pageSize, sortProperty, searchPack, userId))
         } else {
